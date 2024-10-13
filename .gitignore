@@ -1,0 +1,38 @@
+__pycache__/
+*.env
+*.venv
+
+db.sqlite3
+*.sqlite3
+*.log
+media/
+staticfiles/
+*.pot
+*.pyc
+
+
+# Environments
+.env
+*.env
+*.env.*
+venv/
+ENV/
+env/
+myenv
+venv.bak/
+pip-log.txt
+
+# Ignore all files in migrations directories
+**/migrations/*
+
+# But do not ignore __init__.py files
+!**/migrations/__init__.py
+
+# IDEs and Editors
+.vscode/
+.idea/
+*.sublime-workspace
+*.sublime-project
+*.code-workspace
+
+*/static/admin/*

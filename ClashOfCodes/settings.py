@@ -34,35 +34,18 @@ ALLOWED_HOSTS = ["*"]
 
 INSTALLED_APPS = [
     'MainApp.apps.MainappConfig',
-    'rest_framework',
-    'rest_framework.authtoken',
     'django.contrib.sites',  # Required by allauth
+    'django.contrib.messages',
     'allauth',
     'allauth.account',
-    'rest_auth',
-    'corsheaders',
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
     "django.contrib.sessions",
-    "django.contrib.messages",
     "django.contrib.staticfiles",
 ]
 
 SITE_ID = 1
-
-# REST Framework configuration
-REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework_simplejwt.authentication.JWTAuthentication',
-    ),
-    'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.AllowAny',
-    ],
-    'DEFAULT_THROTTLE_RATES': {
-        'user': '5/hour',  # Adjust this as per your requirements
-    },
-}
 
 SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(minutes=60),
@@ -71,8 +54,6 @@ SIMPLE_JWT = {
     'BLACKLIST_AFTER_ROTATION': True,
 }
 
-# CORS
-CORS_ALLOW_ALL_ORIGINS = True  # Set specific domains for production
 
 # Email backend configuration
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
@@ -82,12 +63,12 @@ EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'manojpatil9147@ieee.org'
 EMAIL_HOST_PASSWORD = 'jdabrngebctnzulu'
 
-# Redirect URL after verification
-LOGIN_REDIRECT_URL = 'https://google.com'
 
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
+    'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.contrib.messages.middleware.MessageMiddleware',
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
@@ -96,6 +77,9 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "allauth.account.middleware.AccountMiddleware",
 ]
+
+
+CORS_ALLOW_ALL_ORIGINS = True 
 
 ROOT_URLCONF = "ClashOfCodes.urls"
 

@@ -1,0 +1,174 @@
+/*-----------------------------------*\
+  #CUSTOM PROPERTY
+\*-----------------------------------*/
+:root {
+    --marigold: hsl(42, 99%, 46%);
+    --eerie-black-1: hsl(277, 25%, 10%);
+    --light-gray-1: hsl(0, 0%, 80%);
+    --white: hsl(0, 0%, 100%);
+    --ff-poppins: 'Poppins', sans-serif;
+    --fs-8: 1.5rem;
+    --fw-700: 700;
+    --fw-800: 800;
+}
+
+/* Reset Styles */
+*,
+*::before,
+*::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: var(--ff-poppins);
+    background-color: var(--eerie-black-1);
+    font-size: 1.6rem;
+    line-height: 1.5;
+    color: var(--white);
+    
+}
+
+body{
+    cursor: url(../images/game_cursor.png)  16 16 , default !important;/* Ensure the image is correctly positioned with a fallback */
+    cursor: url(../images/cursor-select.png)  16 16 , pointer !important; /* Use custom cursor for the entire page */
+}
+
+/* Ensure custom cursor for form elements as well */
+input, button, select {
+    cursor: url(../images/game_cursor.png)  16 16, auto; /* Use the same custom cursor for inputs and buttons */
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 50px 20px;
+}
+
+.section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-size: cover;
+    background-position: center;
+}
+
+.section-title {
+    font-family: 'Oxanium', cursive;
+    font-size: 2.4rem;
+    font-weight: var(--fw-800);
+    text-align: center;
+    margin-bottom: 20px;
+    color: var(--white);
+}
+
+/* Register Form Styles */
+.register-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    background-color: rgba(0, 0, 0, 0.6);
+    padding: 20px;
+    border-radius: 8px;
+}
+
+.register-input {
+    padding: 15px;
+    font-size: var(--fs-8);
+    color: var(--eerie-black-1);
+    border: 1px solid var(--light-gray-1);
+    border-radius: 0px; /* Sharp corners */
+    background-color: var(--white);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Add subtle shadow */
+    transition: box-shadow 0.3s ease; /* Animation for focus */
+}
+
+.register-input:focus {
+    border-color: var(--marigold);
+    outline: none;
+}
+
+/* Button Styles */
+.btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--eerie-black-1);
+    font-size: var(--fs-8);
+    text-transform: uppercase;
+    font-weight: var(--fw-700);
+    min-height: 55px;
+    padding-inline: 35px;
+    cursor: pointer;
+ background-color: transparent;
+     
+}
+
+.skewBg {
+    position: relative;
+    z-index: 1;
+}
+
+.skewBg::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    transform: skewX(-16deg);
+    background-color: var(--marigold);
+    z-index: -1;
+}
+.form-container:hover {
+    transform: scale(1.05); /* Slightly enlarge the form */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Add shadow effect */
+}
+
+/* Two-column layout for form and image */
+.two-column {
+    display: flex;
+    justify-content: space-between;
+    align-items: stretch; /* Ensures both columns (image and form) stretch to the same height */
+    gap: 50px; /* Adjust gap between image and form */
+}
+
+.hero-banner {
+    flex: 1; /* Image takes up one column */
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.hero-banner img {
+    height: 100%; /* Match the form's height */
+    width: auto;  /* Maintain aspect ratio */
+}
+
+.form-container {
+    flex: 1; /* Form takes up one column */
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Center form content vertically */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+}
+
+@media (max-width: 768px) {
+    .two-column {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .hero-banner img {
+        height: auto; /* Let image adjust naturally in mobile view */
+        width: 100%;  /* Ensure image takes full width in mobile */
+    }
+
+    .hero-banner, .form-container {
+        flex: unset;
+        width: 100%;
+    }
+ 
+
+
+}

@@ -5,67 +5,69 @@ from django.utils.encoding import force_bytes, force_str
 from django.core.mail import EmailMessage
 from django.template.loader import render_to_string
 from django.contrib.auth.models import User
-from rest_framework import status
-from rest_framework.decorators import api_view, throttle_classes,permission_classes,authentication_classes
-from rest_framework.throttling import UserRateThrottle
 from rest_framework.response import Response
 from .tokens import account_activation_token
-from rest_framework_simplejwt.authentication import JWTAuthentication
 from django.shortcuts import render, HttpResponse, redirect
-from rest_framework.permissions import AllowAny, IsAuthenticated
+from django.http import JsonResponse
 from django.utils.crypto import get_random_string
-from .serializers import TeamSerializer
-from .models import UserToken, Team
-from django.utils import timezone
-from datetime import timedelta
-
-
+from .serializers import TeamSerializer, userSerializer
+from .models import UserToken
+from django.contrib.auth import authenticate, login
+from .models import Team, submissiontime, contact, submissiontime
 
 
 # Create your views here.
 def home(request):
-    return HttpResponse("Hello World")
+    user = request.user
+    context = {'user': user}
+    # check if team of user is created
+
+    try:
+        context['registration']= submissiontime.objects.get(tag='closingtime').submission_time.strftime("%B %d, %Y")
+        context['idea']= submissiontime.objects.get(tag='idea').submission_time.strftime("%B %d, %Y")
+        context['selection']= submissiontime.objects.get(tag='Top 40').submission_time.strftime("%B %d, %Y")
+        context['hackathon']= submissiontime.objects.get(tag='hackathon').submission_time
+        context['hackathon_end']= submissiontime.objects.get(tag='hackathon-end').submission_time
+        team = Team.objects.get(leader=user)
+        context['team'] = team
+    except Exception as e:
+        pass
+    return render(request, "MainApp/index.html", context)
 
 
-class RegisterThrottle(UserRateThrottle):
-    rate = '5/hour'
-
-@api_view(['POST'])
-@permission_classes([AllowAny])
-@throttle_classes([RegisterThrottle])
 def register_user(request):
-    email = request.data.get('email')
+    email = request.POST.get('email')
+    name = request.POST.get('name')
     
-    if not email:
-        return Response({'error': 'Email is required'}, status=status.HTTP_400_BAD_REQUEST)
+    if not email or email.strip() == '':
+        return JsonResponse({'error': 'Email is required'}, status=404)
     
-    user, created = User.objects.get_or_create(username=email, email=email)
-    
-    # If the user already exists but is trying to register again, deactivate their account
-    if not created:
+    try:
+        user = User.objects.get(username=email)
         user.is_active = False  # Deactivate the account
         user.save()
-
-    # Update token timestamp
+        created = False
+    except User.DoesNotExist:
+        user = User.objects.create(username=email, email=email, first_name=name)
+        user.is_active = False  # Deactivate the account
+        user.save()
+        created = True
+    
+    # Generate a token for the user or regenerate if one exists
     user_token, _ = UserToken.objects.get_or_create(user=user)
-    user_token.token_created_at = timezone.now()
-    user_token.save()
-
+    user_token.regenerate_token()  # Create or regenerate the token
+    
     # Send the email (whether new user or existing user)
     domain = request.get_host()  # Get the domain dynamically
     protocol = 'https' if request.is_secure() else 'http'  # Check for HTTP/HTTPS
 
     mail_subject = 'Activate your account.'
-    uid = urlsafe_base64_encode(force_bytes(user.pk))
-    token = account_activation_token.make_token(user)
-    
-    # Construct the activation link
-    activation_link = f"{protocol}://{domain}/activate/{uid}/{token}/"
+    activation_link = f"{protocol}://{domain}/activate/{user.pk}/{user_token.token}/"
 
     # Render email content with context
     message = render_to_string('email_verification.html', {
         'user': user,
-        'activation_link': activation_link,  # Pass the generated activation link
+        'activation_link': activation_link,
     })
 
     # Create and send an email message as HTML
@@ -79,59 +81,92 @@ def register_user(request):
     email_message.send()
 
     if created:
-        return Response({'message': 'Verification link sent to your email'}, status=status.HTTP_200_OK)
+        return JsonResponse({'message': 'Verification link sent to your email'}, status=201)
     else:
-        return Response({'message': 'Your account was deactivated and a new activation link was sent to your email'}, status=status.HTTP_200_OK)
+        return JsonResponse({'message': 'Your account was deactivated and a new activation link was sent to your email'}, status=200)
     
 
-@api_view(['GET'])
-@permission_classes([AllowAny])
 def activate_user(request, uidb64, token):
     try:
-        # Decode the uid
-        uid = force_str(urlsafe_base64_decode(uidb64))
-        user = User.objects.get(pk=uid)
-    except (TypeError, ValueError, OverflowError, User.DoesNotExist):
-        user = None
-
-    if user is not None:
+        user = User.objects.get(pk=uidb64)
         user_token = UserToken.objects.get(user=user)
-        
-        # Check if the token was created after the last token creation time
-        if account_activation_token.check_token(user, token) and timezone.now() < user_token.token_created_at + timedelta(days=1):
-            # Activate the user if the token is valid and not expired
-            user.is_active = True
-            
-            # Generate a new random password
-            new_password = get_random_string(length=8)
-            user.set_password(new_password)
-            user.save()
+    except (TypeError, ValueError, OverflowError, User.DoesNotExist, UserToken.DoesNotExist):
+        return render(request,'MainApp/activation.html', {'message': 'Invalid activation link!'})
 
-            # Send the new password via email
-            mail_subject = 'Your new password'
-            message = f"Hi {user.email},\n\nYour account has been activated. Your new password is: {new_password}\n\nPlease use this password to log in."
-            send_mail(mail_subject, message, 'your_email@gmail.com', [user.email])
+    if user_token.token == token:
+        if not user_token.is_token_expired():  # Check if token is not expired
+            if not user.is_active:
+                user.is_active = True
+                new_password = get_random_string(length=12)
+                user.set_password(new_password)
+                user.save()
 
-            return redirect('https://google.com')   # Redirect to login page after successful activation
+                # Send the new password via email
+                mail_subject = 'Your account has been activated'
+                message = f"Hi {user.first_name},\n\nYour account has been activated. Your new password is: {new_password}\n\nPlease use this password to log in."
+                send_mail(
+                    mail_subject, 
+                    message, 
+                    'manojpatil9147@ieee.org',  # From email
+                    [user.email],               # To email
+                    fail_silently=False
+                )
+                
+                return render(request, 'MainApp/activation.html', {'message': 'Account activated successfully! Check your email for the new password.'})
+            else:
+                return render(request, 'MainApp/activation.html', {'message': 'Account already activated!'})
         else:
-            return Response({'error': 'Activation link is invalid or expired!'}, status=status.HTTP_400_BAD_REQUEST)
+            return render(request, 'MainApp/activation.html', {'message': 'Activation link expired!'})
     else:
-        return Response({'error': 'User does not exist!'}, status=status.HTTP_400_BAD_REQUEST)
+        return render(request, 'MainApp/activation.html', {'message': 'Invalid activation link!'})
 
     
-
-@api_view(['POST'])
-@authentication_classes([JWTAuthentication])  # Use token authentication for this specific view
-@permission_classes([IsAuthenticated])  # Ensure the user is authenticated
 def create_team(request):
-    serializer = TeamSerializer(data=request.data)
+    print(request.POST)
+    # get user
+    user = User.objects.get(username=request.user.username)
+    try:
+        team = Team.objects.get(leader=user)
+    except Exception as e:
+        team = None
+    if team:
+        return JsonResponse({'error': 'Team already exists'}, status=400)
+    userserializer = userSerializer(user)
+    data={
+        'name':request.POST.get('TeamName'),
+        'leader_contact':request.POST.get('phoneno'),
+        'member1_name':request.POST.get('member1'),
+        'member2_name':request.POST.get('member2'),
+        'member3_name':request.POST.get('member3'),
+    }
+    team = Team.objects.create(name=data['name'],leader=user,leader_contact=data['leader_contact'],member1_name=data['member1_name'],member2_name=data['member2_name'],member3_name=data['member3_name'])
+    team.save()
+    return redirect('MainApp:home')
     
-    if serializer.is_valid():
-        # Save the team details
-        serializer.save()
-        return Response({'message': 'Team created successfully!'}, status=status.HTTP_201_CREATED)
-    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    
+
+def loginPage(request):
+    if request.method == 'POST':
+        username = request.POST['email']
+        password = request.POST['password']
+        print(username,password)
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            login(request,user)
+            print("success")
+            return JsonResponse({'data':'success'}, status=200)
+        else:
+            return JsonResponse(status=401)
+    return JsonResponse(status=404)
 
 
+def get_form_closing_time(request):
+    closingtime = submissiontime.objects.get(tag='closingtime')
+    return JsonResponse({'form_closing_time':closingtime.submission_time}, status=200)
 
+def contactview(request):
+    if request.method == 'POST':
+        email = request.POST.get('email_address')
+        message = request.POST.get('message')
+        comment=contact.objects.create(email=email,message=message)
+        return render(request,'MainApp/activation.html', {'message': 'Your message has been sent successfully!'})
+    return render(request,'MainApp/activation.html',{'message':"message couldnt not be send!!"})

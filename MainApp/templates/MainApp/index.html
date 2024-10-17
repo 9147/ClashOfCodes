@@ -1,0 +1,500 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Home{% endblock %}
+
+{% block content %}
+
+<main>
+  <article>
+
+    <!-- 
+      - #HERO
+    -->
+
+    <section class="section hero" id="home" aria-label="home"
+      style="background-image: url({% static "images/hero-bg.jpg" %});">
+      <div class="container">
+
+        <div class="hero-content">
+
+          <p class="hero-subtitle">Computer Society Of kls git presents</p>
+
+          <h1 class="h1 hero-title" >
+            Clash <span class="span">of</span> Codes
+          </h1>
+
+          <p class="hero-text">
+            Find technology or people for digital projects in public sector and Find an individual specialist develope
+            researcher.
+          </p>
+
+          <button onclick= {% if user.is_authenticated %} {% if team %} "window.location='https://forms.gle/ck8k2BkQTqvbGVnaA'" {% else %}"document.getElementById('popup_continue_registration').style.display='block'" {% endif %} {% else %} "register()" {% endif %} class="btn skewBg">{% if user.is_authenticated %} {% if team %} Make Submission {% else %} Continue Registration {% endif %} {% else %} Register Now! {% endif %}</button>
+
+        </div>
+
+        <figure class="hero-banner img-holder" style="--width: 700; --height: 700;">
+          <img src="{% static 'images/hero-banner.png' %}" width="700" height="700" alt="hero banner" class="w-100">
+        </figure>
+
+      </div>
+    </section>
+
+
+
+
+
+    <!-- 
+      - #BRAND
+    -->
+
+    <section class="section brand" aria-label="brand">
+      <div class="container">
+
+        <ul class="has-scrollbar">
+
+          <li class="brand-item">
+            <img src="{% static 'images/brand-1.png' %}" width="90" height="90" loading="lazy" alt="brand logo">
+          </li>
+          <span class="logo-text" id="brand-text">Presents</span>
+          <li class="brand-item">
+            <img src="{% static 'images/logo.png' %}" width="90" height="90" loading="lazy" alt="brand logo">
+          </li>
+
+        </ul>
+
+      </div>
+    </section>
+
+
+
+
+
+    <div class="section-wrapper">
+
+      <!-- 
+        - #LATEST GAME
+      -->
+
+      <section class="section latest-game" aria-label="latest game">
+        <div class="container">
+
+          <p class="section-subtitle">About Us</p>
+
+          <h2 class="h2 section-title">
+            Meet the <span class="span">Organiser</span>
+          </h2>
+
+          <ul class="has-scrollbar">
+
+            <li class="scrollbar-item">
+              <div class="latest-game-card">
+
+                <figure class="card-banner img-holder" style="background-color: transparent; max-width:500px">
+                  <img src="{% static 'images/ieee-cs.png' %}" width="400" height="400"  loading="lazy"
+                    alt="Cyberpunk Daily" class="img-cover">
+                </figure>
+
+                <div class="card-content">
+
+                  <a href="#" class="card-badge skewBg">IEEE CS KLS GIT</a>
+
+                  <h3 class="h3">
+                    <a href="https:/ieeegit.in/ieee-computer-society/" class="card-title">KLS GOGTE INSTITUE OF TECHNOLOGY <span class="span">BELGAUM</span></a>
+                  </h3>
+
+                  <p class="card-price">
+                    site : <span class="span">https:/ieeegit.in/ieee-computer-society/</span>
+                  </p>
+
+                </div>
+
+              </div>
+            </li>
+
+          </ul>
+
+        </div>
+      </section>
+
+
+
+
+
+      <!-- 
+        - #LIVE MATCH
+      -->
+
+      <section class="section live-match" id="live" aria-label="live match">
+        <div class="container">
+
+          <h2 class="h2 section-title">
+            Join us for the <span class="span">Match</span>
+          </h2>
+
+          <figure class="live-match-banner img-holder">
+
+            <img src="{% static 'images/poster.jpg' %}" loading="lazy"
+              alt="Live Match Video" class="img-cover">
+
+
+          </figure>
+
+
+
+        </div>
+      </section>
+
+    </div>
+
+
+
+
+
+    <!-- 
+      - #FEATURED GAME
+    -->
+
+    
+
+
+
+
+
+    <!-- 
+      - #SHOP
+    -->
+
+    <section class="section shop" id="shop" aria-label="shop"
+      style="background: #393333;">
+      <div class="container">
+
+        <h2 class="h2 section-title">
+          Mission <span class="span">Path</span>
+        </h2>
+
+        <p class="section-text">
+          Compete with the top 40 teams in an intense offline battle—only the best will rise, and the winners will shine!
+        </p>
+
+        <ul class="flow-event">
+
+          <li class="scrollbar-item">
+            <div class="shop-card">
+
+              <div class="card-content">
+
+                <a href="#" class="card-badge skewBg">Registration</a>
+
+                <h3 class="h3">
+                  <a href="#" class="card-title">Create account and register your team!</a>
+                </h3>
+
+                <div class="card-wrapper">
+                  <p class="card-price">Last Date: {{ registration }} </p>
+
+
+                </div>
+
+              </div>
+
+            </div>
+          </li>
+
+          <li class="scrollbar-item">
+            <div class="shop-card">
+
+
+              <div class="card-content">
+
+                <a href="#" class="card-badge skewBg">Idea Submission</a>
+
+                <h3 class="h3">
+                  <a href="#" class="card-title">Submission of Idea</a>
+                </h3>
+
+                <div class="card-wrapper">
+                  <p class="card-price">Last Date: {{ idea }} </p>
+
+
+                </div>
+
+              </div>
+
+            </div>
+          </li>
+
+          <li class="scrollbar-item">
+            <div class="shop-card">
+
+
+              <div class="card-content">
+
+                <a href="#" class="card-badge skewBg">Selection</a>
+
+                <h3 class="h3">
+                  <a href="#" class="card-title">Selection of top 40 teams</a>
+                </h3>
+
+                <div class="card-wrapper">
+                  <p class="card-price">Date: {{ selection }} </p>
+
+                </div>
+
+              </div>
+
+            </div>
+          </li>
+
+          <li class="scrollbar-item">
+            <div class="shop-card">
+
+
+              <div class="card-content">
+
+                <a href="#" class="card-badge skewBg">Fee Payment</a>
+
+                <h3 class="h3">
+                  <a href="#" class="card-title">Registrations for offline event</a>
+                </h3>
+
+                <div class="card-wrapper">
+                  <p class="card-price">₹600</p>
+
+                </div>
+
+              </div>
+
+            </div>
+          </li>
+
+          <li class="scrollbar-item">
+            <div class="shop-card">
+
+
+              <div class="card-content">
+
+                <a href="#" class="card-badge skewBg">Hackathon</a>
+
+                <h3 class="h3">
+                  <a href="#" class="card-title">24 hours hackathon</a>
+                </h3>
+
+                <div class="card-wrapper">
+                  <p class="card-price">Date: {{ hackathon | date:"F j, Y"  }} </p>
+
+                </div>
+
+              </div>
+
+            </div>
+          </li>
+        </ul>
+
+      </div>
+    </section>
+
+
+
+     <!-- 
+        - #BLOG
+      -->
+
+      <section class="section blog" id="blog" aria-label="blog">
+        <div class="container">
+
+          <h2 class="h2 section-title">
+            About the <span class="span">Event</span>
+          </h2>
+
+          <p class="section-text">
+            Compete With 100 Players On A Remote Island For Winner Takes Showdown Known Issue Where Certain Skin
+            Strategic
+          </p>
+
+
+
+        </div>
+        <span class="details">
+          <span class="details-container">
+          <span class="holder">
+            <span class="title">Start time: </span>
+            <span class="content">{{hackathon}}</span>
+          </span>
+          <span class="holder">
+            <span class="title">End time: </span>
+            <span class="content">{{hackathon_end}}</span>
+          </span>
+          <span class="holder">
+            <span class="title">Venue: </span>
+            <span class="content"><h4>KLS GOGTE INSTITUTE OF TECHNOLOGY</h4>
+              Udyambag Industrial Area, Udyambag, Belagavi, Karnataka 590006</span>
+          </span>
+        </span>
+        </span>
+
+      </section>
+
+
+
+  
+
+
+
+    <!-- 
+      - #NEWSLETTER
+    -->
+
+    <section class="newsletter" id="contact" aria-label="newsletter">
+      <div class="container">
+
+        <div class="newsletter-card">
+
+          <h2 class="h2">
+            Call for  <span class="span">Reinforcements</span>
+          </h2>
+
+          <form action="/contact/" method="post" class="newsletter-form">
+            {% csrf_token %}
+            <div class="input-wrapper skewBg">
+              <input type="email" name="email_address" aria-label="email" placeholder="Enter your email..." required
+                class="email-field">
+
+              <ion-icon name="mail-outline"></ion-icon>
+            </div>
+            <div class="input-wrapper skewBg">
+              <input type="text" name="message" aria-label="message" placeholder="Enter your message..." required
+                class="email-field">
+                <ion-icon name="chatbox-outline"></ion-icon>
+            </div>
+
+            <button type="submit" class="btn newsletter-btn skewBg">
+              <span class="span">Submit</span>
+
+              <ion-icon name="paper-plane" aria-hidden="true"></ion-icon>
+            </button>
+
+          </form>
+
+        </div>
+
+      </div>
+    </section>
+
+  </article>
+</main>
+
+
+<div class="popup-window" id="popup_window" style="display: none;">
+  <div class="popup-body" id="popup_body">
+      <div class="popup-content">
+          <h2 class="popup-title">Do you already have an account?</h2>
+          <h5 class="input-wrapper">You will be redirected to the login page!</h5>
+        <span class="btns">
+        <button type="submit" class="btn popup-btn newsletter-btn  skewBg" onclick="LoginUser()">YES</button>
+        <button type="submit" class="btn popup-btn newsletter-btn  skewBg" onclick="CreateAccount()">NO</button>
+      </span> 
+          </div>
+          
+  </div>
+</div>
+
+<div class="popup-registration popup-window" id="popup_registration" style="display: none;">
+  <div class="popup-body">
+    <div class="popup-content">
+      <h2 class="popup-title">Register!!</h2>
+      <form class="popup-content" onsubmit="return false">
+        {% csrf_token %}
+        <div class="input-wrapper">
+          <input type="text" name="name" id="registration_name" aria-label="name" placeholder="Enter your name..." class="email-field" required>
+        </div>
+        <div class="input-wrapper">
+          <input type="email" name="email" id="registration_email" aria-label="email" placeholder="Enter your email..." class="email-field" required>
+        </div>
+        <span class="btns">
+          <button type="submit" class="btn popup-btn newsletter-btn  skewBg" onclick="RegisterAccount(event)">Register</button>
+          <button type="button" class="btn popup-btn newsletter-btn  skewBg" onclick="document.getElementById('popup_registration').style.display='none';">Cancle</button>
+        </span> 
+      </form>
+    </div>
+  </div>
+</div>
+
+<div class="popup-login popup-window" id="popup_login" style="display: none;">
+  <div class="popup-body">
+    <div class="popup-content">
+      <h2 class="popup-title">Login!!</h2>
+      <form class="popup-content">
+        {% csrf_token %}
+        <div class="input-wrapper">
+          <input type="email" name="email" id="login_email" aria-label="email" placeholder="Enter your email..." class="email-field" required>
+        </div>
+        <div class="input-wrapper">
+          <input type="password" name="password" id="login_password" aria-label="password" placeholder="Enter your password..." class="email-field" required>
+        </div>
+        <span class="btns">
+          <button type="button" class="btn popup-btn newsletter-btn  skewBg" onclick="LoginAccount()">Login</button>
+          <button type="button" class="btn popup-btn newsletter-btn  skewBg" onclick="document.getElementById('popup_login').style.display='none';">Cancle</button>
+        </span> 
+      </form>
+    </div>
+  </div>`
+</div>
+
+<div class="popup-continue-registration popup-window" id="popup_continue_registration" style="display: none;">
+  <div class="popup-body">
+    <!-- close button -->
+    <button class="close-btn-registration" onclick="document.getElementById('popup_continue_registration').style.display='none';">
+      <ion-icon name="close-circle-outline"></ion-icon>
+    </button>
+    <div class="popup-content">
+      <h2 class="popup-title">Register!!</h2>
+      <!-- One "tab" for each step in the form: -->
+       <form action="create-team/" method="post" id="regForm">
+        {% csrf_token %}
+<div class="tab"><span class="title">Team:</span>
+  <p><input type="text" placeholder="Team Name..." oninput="this.className = ''" name="TeamName"></p>
+  <label for="team_strength" class="title">Team Count:</label>
+  <p><select name="team_strength" id="team_strength" oninput="this.className = ''" >
+    <option value="3">3</option>
+    <option value="4">4</option>
+  </select></p>
+</div>
+
+<div class="tab"><span class="title">Contact Info:</span>
+  <p><input type="text" placeholder="Name" value="{{user.first_name}}" readonly oninput="this.className = ''" name="teamleader"></p>
+  <p><input placeholder="E-mail..." value="{{user.username}}" oninput="this.className = ''" name="leaderemail"></p>
+  <p><input placeholder="Phone..." oninput="this.className = ''" name="phoneno"></p>
+</div>
+
+<div class="tab"><span class="title">Member Info:</span>
+  <p><input placeholder="Member 2 name" id="member2" oninput="this.className = ''" name="member1"></p>
+  <p><input placeholder="Member 3 name" id="member3" oninput="this.className = ''" name="member2"></p>
+  <p><input placeholder="Member 4 name" id="member4" oninput="this.className = ''" name="member3"></p>
+</div>
+
+
+
+<div style="overflow:auto;">
+  <div style="float:right;" class="control-btns">
+    <button type="button" id="prevBtn" class="btn prevBtn newsletter-btn  skewBg" onclick="nextPrev(-1)">Previous</button>
+    <button type="button" id="nextBtn" class="btn nextBtn newsletter-btn  skewBg" onclick="nextPrev(1)">Next</button>
+  </div>
+</div>
+
+<!-- Circles which indicates the steps of the form: -->
+<div style="text-align:center;margin-top:40px;">
+  <span class="step"></span>
+  <span class="step"></span>
+  <span class="step"></span>
+</div>
+</form>
+    </div>
+  </div>
+</div>
+
+<script>
+  
+
+</script>
+
+{% endblock content %}

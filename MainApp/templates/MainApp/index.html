@@ -454,7 +454,7 @@
 <div class="tab"><span class="title">Team:</span>
   <p><input type="text" placeholder="Team Name..." oninput="this.className = ''" name="TeamName"></p>
   <label for="team_strength" class="title">Team Count:</label>
-  <p><select name="team_strength" id="team_strength" oninput="this.className = ''" >
+  <p><select name="team_strength" id="team_strength" oninput="this.className = ''" onchange="adjustMembers()" >
     <option value="3">3</option>
     <option value="4">4</option>
   </select></p>

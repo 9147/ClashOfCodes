@@ -36,10 +36,10 @@ INSTALLED_APPS = [
     'MainApp.apps.MainappConfig',
     'django.contrib.sites',  # Required by allauth
     'django.contrib.messages',
-    'allauth',
-    'allauth.account',
     "django.contrib.admin",
     "django.contrib.auth",
+    'allauth',
+    'allauth.account',
     "django.contrib.contenttypes",
     "django.contrib.sessions",
     "django.contrib.staticfiles",

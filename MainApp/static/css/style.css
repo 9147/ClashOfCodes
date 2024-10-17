@@ -1881,7 +1881,7 @@ select#team_strength {
 
 button.close-btn-registration {
   position: fixed;
-  top: 25vh;
+  top: 10vh;
   left: 15vw;
   font-size: 4rem;
   color: var(--white);

@@ -339,3 +339,24 @@ function fixStepIndicator(n) {
 
 
 
+function adjustMembers() {
+  var teamStrength = document.getElementById("team_strength").value;
+  var member4 = document.getElementById("member4");
+
+  console.log("Team Strength:", teamStrength);
+  
+  // Show/hide member 4 input based on the selected team strength
+  if (teamStrength == 4) {
+      member4.style.display = "block";  // Show Member 4 field
+      member4.value = ""
+
+  } else {
+      member4.style.display = "none";    // Hide Member 4 field
+      member4.value = "None"
+  }
+}
+
+// Set initial state based on the default value (team of 3)
+window.onload = function() {
+  adjustMembers(); // Call this to set the initial visibility and state
+};

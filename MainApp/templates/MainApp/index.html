@@ -17,15 +17,14 @@
 
         <div class="hero-content">
 
-          <p class="hero-subtitle">Computer Society Of kls git presents</p>
+          <p class="hero-subtitle">IEEE Computer Society Of KLS git presents</p>
 
           <h1 class="h1 hero-title" >
             Clash <span class="span">of</span> Codes
           </h1>
 
           <p class="hero-text">
-            Find technology or people for digital projects in public sector and Find an individual specialist develope
-            researcher.
+            Tech For Better Tomorrow
           </p>
 
           <button onclick= {% if user.is_authenticated %} {% if team %} "window.location='https://forms.gle/ck8k2BkQTqvbGVnaA'" {% else %}"document.getElementById('popup_continue_registration').style.display='block'" {% endif %} {% else %} "register()" {% endif %} class="btn skewBg">{% if user.is_authenticated %} {% if team %} Make Submission {% else %} Continue Registration {% endif %} {% else %} Register Now! {% endif %}</button>
@@ -412,7 +411,7 @@
         </div>
         <span class="btns">
           <button type="submit" class="btn popup-btn newsletter-btn  skewBg" onclick="RegisterAccount(event)">Register</button>
-          <button type="button" class="btn popup-btn newsletter-btn  skewBg" onclick="document.getElementById('popup_registration').style.display='none';">Cancle</button>
+          <button type="button" class="btn popup-btn newsletter-btn  skewBg" onclick="document.getElementById('popup_registration').style.display='none';">Cancel</button>
         </span> 
       </form>
     </div>
@@ -433,7 +432,7 @@
         </div>
         <span class="btns">
           <button type="button" class="btn popup-btn newsletter-btn  skewBg" onclick="LoginAccount()">Login</button>
-          <button type="button" class="btn popup-btn newsletter-btn  skewBg" onclick="document.getElementById('popup_login').style.display='none';">Cancle</button>
+          <button type="button" class="btn popup-btn newsletter-btn  skewBg" onclick="document.getElementById('popup_login').style.display='none';">Cancel</button>
         </span> 
       </form>
     </div>

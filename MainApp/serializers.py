@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Team, contact
+from .models import Team, contact, Problem
 from django.contrib.auth.models import User
 
 class userSerializer(serializers.ModelSerializer):
@@ -33,4 +33,11 @@ class TeamSerializer(serializers.ModelSerializer):
 class contactSerializer(serializers.ModelSerializer):
     class Meta:
         model = contact
+        fields = '__all__'
+
+
+class ProblemSerializer(serializers.ModelSerializer):
+    team = TeamSerializer()
+    class Meta:
+        model = Problem
         fields = '__all__'

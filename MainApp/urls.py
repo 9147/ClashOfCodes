@@ -11,4 +11,5 @@ urlpatterns = [
     path('create-team/', views.create_team, name='create_team'),
     path('contact/', views.contactview, name='contact'),
     path('get_form_closing_time/', views.get_form_closing_time, name='get_form_closing_time'),
+    path('submission/', views.submission, name='submission'),
 ]

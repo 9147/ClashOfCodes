@@ -11,7 +11,7 @@ function getFormClosingTime() {
     $.ajax({
       dataType: 'json',
       type: 'GET',
-      url: "get_form_closing_time/",
+      url: "../get_form_closing_time/",
       success: function (data) {
         const closingTime = new Date(data.form_closing_time).getTime();
         resolve(closingTime);

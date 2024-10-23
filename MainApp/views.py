@@ -1,18 +1,12 @@
 from django.core.mail import EmailMessage
-
-from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
-from django.utils.encoding import force_bytes, force_str
-from django.template.loader import render_to_string
 from django.contrib.auth.models import User
-from .tokens import account_activation_token
 from django.shortcuts import render, HttpResponse, redirect
 from django.http import JsonResponse
 from django.utils.crypto import get_random_string
 from .serializers import TeamSerializer, userSerializer
 from .models import UserToken
 from django.contrib.auth import authenticate, login
-from .models import Team, submissiontime, contact, submissiontime
-
+from .models import Team, submissiontime, contact, submissiontime, Problem
 
 # Create your views here.
 def home(request):
@@ -26,9 +20,12 @@ def home(request):
         context['selection']= submissiontime.objects.get(tag='Top 40').submission_time.strftime("%B %d, %Y")
         context['hackathon']= submissiontime.objects.get(tag='hackathon').submission_time
         context['hackathon_end']= submissiontime.objects.get(tag='hackathon-end').submission_time
-        team = Team.objects.get(leader=user)
+        team = Team.objects.get(leader=user.id)
         context['team'] = team
+        problem = Problem.objects.filter(team=team)
+        context['problem'] = problem
     except Exception as e:
+        print(e)
         pass
     return render(request, "MainApp/index.html", context)
 
@@ -68,17 +65,17 @@ def register_user(request):
     #     'activation_link': activation_link,
     # })
 
-    message = f'Hi {user.first_name},\n\nYour account has been created successfully. Please click the link below to activate your account.\n\n{activation_link}\n\nIf you did not create an account, please ignore this email.\n\nRegards,\nClash of Codes Team'
+    message = f"Hi {user.first_name},\n\nYour account has been created successfully. Please click the link below to activate your account.\n\nActivation Link: {activation_link}\n\nIf you did not create an account, please ignore this email.\n\nRegards,\nClash of Codes Team"
 
     # Create and send an email message as HTML
     email_message = EmailMessage(
         mail_subject,
-        message,
-        'noreply@clashofcodes.in',  # From email
-        [email],   
+        body=message,
+        from_email='noreply@clashofcodes.in',  # From email
+        to=[email],   
         reply_to=['contact@clashofcodes.in']
     )
-    email_message.content_subtype = 'html'  # Set content type to HTML
+    # email_message.content_subtype = 'html'  # Set content type to HTML
     email_message.send(fail_silently=False)
 
     if created:
@@ -187,3 +184,24 @@ def contactview(request):
         comment=contact.objects.create(email=email,message=message)
         return render(request,'MainApp/activation.html', {'message': 'Your message has been sent successfully!'})
     return render(request,'MainApp/activation.html',{'message':"message couldnt not be send!!"})
+
+
+def submission(request):
+    if request.method == 'POST':
+        problem_title = request.POST.get('problem-title')
+        problem_statement = request.POST.get('problem-description')
+        solution_description = request.POST.get('solution-description')
+        try:
+            team = Team.objects.get(leader=request.user)
+        except Team.DoesNotExist:
+            team = None
+        if not team:
+            return render(request,'MainApp/activation.html', {'message': 'Team not found!'})
+        # problem_solution_file = request.FILES.get('problem_solution_file')
+        # if not problem_solution_file:
+        #     return JsonResponse({'error': 'Problem solution file is required'}, status=404)
+        problem = Problem.objects.create(title=problem_title, description=problem_statement,solution=solution_description, team=team)
+        problem.save()
+
+        return render(request,'MainApp/activation.html', {'message': 'Problem statement submitted successfully!'})
+    return render(request,'MainApp/submission.html')

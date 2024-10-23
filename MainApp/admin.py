@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Team, ProblemSubmission, UserToken, submissiontime, contact
+from .models import Team, ProblemSubmission, UserToken, submissiontime, contact, Problem
 
 # Register your models here.
 @admin.register(Team)
@@ -37,3 +37,11 @@ class contactAdmin(admin.ModelAdmin):
     sortable_by = ['email', 'message','action']
     search_fields = ['email', 'message','action']
     list_filter = ['email', 'message','action']
+
+
+@admin.register(Problem)
+class ProblemAdmin(admin.ModelAdmin):
+    list_display = ['title', 'team', 'description', 'solution']
+    sortable_by = ['title', 'team', 'description', 'solution']
+    search_fields = ['title', 'team', 'description', 'solution']
+    list_filter = ['title', 'team', 'description', 'solution']

@@ -72,4 +72,12 @@ class contact(models.Model):
     def __str__(self):
         return self.message
     
+class Problem(models.Model):
+    title = models.CharField(max_length=100)
+    team = models.OneToOneField(Team, on_delete=models.CASCADE)
+    description = models.TextField()
+    solution = models.TextField()
+
+    def __str__(self):
+        return self.title
 

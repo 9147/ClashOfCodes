@@ -1881,8 +1881,8 @@ select#team_strength {
 
 button.close-btn-registration {
   position: fixed;
-  top: 10vh;
-  left: 15vw;
+  top: 5vh;
+  left: 5vw;
   font-size: 4rem;
   color: var(--white);
 }
@@ -1945,6 +1945,26 @@ span.details-container {
 
 
 .contact {
+  display: flex;
   color: white;
   padding: 1rem;
+  justify-content: center;
+}
+
+.rule-body {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  width: 90%;
+  gap: 1rem;
+  overflow: auto;
+  font-size: var(--fs-9);
+  color: var(--cultured-2);
+}
+.rule-container {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  justify-content: center;
 }

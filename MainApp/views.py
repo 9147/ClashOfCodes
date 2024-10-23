@@ -63,10 +63,12 @@ def register_user(request):
     activation_link = f"{protocol}://{domain}/activate/{user.pk}/{user_token.token}/"
 
     # Render email content with context
-    message = render_to_string('email_verification.html', {
-        'user': user,
-        'activation_link': activation_link,
-    })
+    # message = render_to_string('email_verification.html', {
+    #     'user': user,
+    #     'activation_link': activation_link,
+    # })
+
+    message = f'Hi {user.first_name},\n\nYour account has been created successfully. Please click the link below to activate your account.\n\n{activation_link}\n\nIf you did not create an account, please ignore this email.\n\nRegards,\nClash of Codes Team'
 
     # Create and send an email message as HTML
     email_message = EmailMessage(

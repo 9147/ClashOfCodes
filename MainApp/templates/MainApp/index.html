@@ -27,7 +27,7 @@
             Open Source Innovation
           </p>
 
-          <button onclick= {% if user.is_authenticated %} {% if team %} {% if problem %} "#" {% else %} "window.location='./submission'" {% endif %} {% else %}"document.getElementById('popup_continue_registration').style.display='block'" {% endif %} {% else %} "register()" {% endif %} class="btn skewBg">{% if user.is_authenticated %} {% if team %}{% if problem %} Already submitted!! {% else %} Make Submission {% endif %} {% else %} Continue Registration {% endif %} {% else %} Register Now! {% endif %}</button>
+          <button onclick= {% if user.is_authenticated %} {% if team %} {% if problem %} "window.location='https://chat.whatsapp.com/DOaKmPa64hNIhR5O77k1Qp'" {% else %} "window.location='./submission'" {% endif %} {% else %}"document.getElementById('popup_continue_registration').style.display='block'" {% endif %} {% else %} "register()" {% endif %} class="btn skewBg">{% if user.is_authenticated %} {% if team %}{% if problem %} Join Group! {% else %} Make Submission {% endif %} {% else %} Continue Registration {% endif %} {% else %} Register Now! {% endif %}</button>
 
         </div>
 
@@ -378,6 +378,21 @@
 
         </div>
 
+      </div>
+      <div class="contact">
+        <div class="contact-card">
+          <p class="contact-text">For any queries, feel free to contact us!</p>
+          <div class="contact-info">
+            <div class="contact-item">
+              <ion-icon name="call-outline"></ion-icon>
+              <span>+91 6363678375</span>
+            </div>
+            <div class="contact-item">
+              <ion-icon name="mail-outline"></ion-icon>
+              <span>contact@clashofcodes.in</span>
+              </div>
+              </div>
+      </div>
       </div>
     </section>
 

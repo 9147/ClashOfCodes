@@ -38,21 +38,6 @@ class Team(models.Model):
     def __str__(self):
         return self.name
     
-class ProblemSubmission(models.Model):
-    team = models.ForeignKey(Team, on_delete=models.CASCADE)
-    problem_solution_file = models.FileField(upload_to='static/problem_solutions/')
-    submission_time = models.DateTimeField(auto_now_add=True)
-    title = models.CharField(max_length=100)
-    description = models.TextField()
-    status_choice = [
-        ('Pending', 'Pending'),
-        ('Accepted', 'Accepted'),
-        ('Rejected', 'Rejected'),
-    ]
-    status = models.CharField(max_length=10, choices=status_choice, default='Pending')
-
-    def __str__(self):
-        return self.team.name
     
 class submissiontime(models.Model):
     tag = models.CharField(max_length=100,primary_key=True)

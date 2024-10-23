@@ -36,3 +36,5 @@ pip-log.txt
 *.code-workspace
 
 */static/admin/*
+
+user.json

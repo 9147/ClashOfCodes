@@ -29,6 +29,10 @@ class Team(models.Model):
     member1_name = models.CharField(max_length=100)
     member2_name = models.CharField(max_length=100)
     member3_name = models.CharField(max_length=100)
+    city = models.CharField(max_length=100, default='City')
+    college = models.CharField(max_length=100, default='College')
+    state = models.CharField(max_length=100, default='State')
+    country = models.CharField(max_length=100, default='Country')
     # problem_solution_file = models.FileField(upload_to='static/problem_solutions/')
 
     def __str__(self):

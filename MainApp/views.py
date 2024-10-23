@@ -1,7 +1,7 @@
-from django.core.mail import send_mail
+from django.core.mail import EmailMessage
+
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.utils.encoding import force_bytes, force_str
-from django.core.mail import EmailMessage
 from django.template.loader import render_to_string
 from django.contrib.auth.models import User
 from .tokens import account_activation_token
@@ -72,11 +72,12 @@ def register_user(request):
     email_message = EmailMessage(
         mail_subject,
         message,
-        'your_email@gmail.com',  # From email
-        [email],                 # To email
+        'noreply@clashofcodes.in',  # From email
+        [email],   
+        reply_to=['contact@clashofcodes.in']
     )
     email_message.content_subtype = 'html'  # Set content type to HTML
-    email_message.send()
+    email_message.send(fail_silently=False)
 
     if created:
         return JsonResponse({'message': 'Verification link sent to your email'}, status=201)
@@ -101,14 +102,15 @@ def activate_user(request, uidb64, token):
 
                 # Send the new password via email
                 mail_subject = 'Your account has been activated'
-                message = f"Hi {user.first_name},\n\nYour account has been activated. Your new password is: {new_password}\n\nPlease use this password to log in."
-                send_mail(
-                    mail_subject, 
-                    message, 
-                    'manojpatil9147@ieee.org',  # From email
-                    [user.email],               # To email
-                    fail_silently=False
+                html_content = f"Hi {user.first_name},\n\nYour account has been activated. Your new password is: {new_password}\n\nPlease use this password to log in."
+                email = EmailMessage(
+                    subject=mail_subject,
+                    body=html_content,
+                    from_email='noreply@clashofcodes.in',
+                    to=[user.email],
+                    reply_to=['contact@clashofcodes.in'],
                 )
+                email.send(fail_silently=False)
                 
                 return render(request, 'MainApp/activation.html', {'message': 'Account activated successfully! Check your email for the new password.'})
             else:
@@ -136,9 +138,24 @@ def create_team(request):
         'member1_name':request.POST.get('member1'),
         'member2_name':request.POST.get('member2'),
         'member3_name':request.POST.get('member3'),
+        'city':request.POST.get('city'),
+        'state':request.POST.get('state'),
+        'country':request.POST.get('country'),
+        'college':request.POST.get('college'),
     }
     team = Team.objects.create(name=data['name'],leader=user,leader_contact=data['leader_contact'],member1_name=data['member1_name'],member2_name=data['member2_name'],member3_name=data['member3_name'])
     team.save()
+    # send a mail to the users registered mail id that the team has been created
+    mail_subject = 'Team Created'
+    message = f"Hi {user.first_name},\n\nYour team has been created successfully. You can now submit your idea.\n\nTeam Name: {team.name}\nLeader Contact: {team.leader_contact}\nMember 1: {team.member1_name}\nMember 2: {team.member2_name}\nMember 3: {team.member3_name}\n\nPlease join the whatsapp group for funter info. \n\nLink: https://chat.whatsapp.com/DOaKmPa64hNIhR5O77k1Qp"
+    email = EmailMessage(
+        subject=mail_subject, 
+        body=message, 
+        from_email='noreply@clashofcodes.in',
+        to=[user.email],
+        reply_to=['contact@clashofcodes.in'],
+    )
+    email.send(fail_silently=False)
     return redirect('MainApp:home')
     
 

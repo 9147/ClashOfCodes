@@ -12,10 +12,22 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 
 from pathlib import Path
 import os
+import json
 from datetime import timedelta
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+USER_CREDENTIALS_FILE = os.path.join(BASE_DIR, 'user.json')
+
+
+
+
+# Try loading the credentials from the user.json file
+try:
+    with open(USER_CREDENTIALS_FILE, 'r') as f:
+        user_credentials = json.load(f)
+except (FileNotFoundError, json.JSONDecodeError):
+    user_credentials = {}
 
 
 # Quick-start development settings - unsuitable for production
@@ -54,14 +66,24 @@ SIMPLE_JWT = {
     'BLACKLIST_AFTER_ROTATION': True,
 }
 
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_USE_SSL = True
+EMAIL_HOST = 'smtp.zoho.in'
+EMAIL_PORT = 465
+EMAIL_HOST_USER = user_credentials.get('EMAIL_HOST_USER', '')
+EMAIL_HOST_PASSWORD = user_credentials.get('EMAIL_HOST_PASSWORD', '')
+DEFAULT_FROM_EMAIL = user_credentials.get('EMAIL_HOST_USER', '')
+SERVER_EMAIL = user_credentials.get('EMAIL_HOST_USER', '')
+
+
 
 # Email backend configuration
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
-EMAIL_HOST_USER = ''
-EMAIL_HOST_PASSWORD = ''#password
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+# EMAIL_HOST = 'smtp.zoho.com'
+# EMAIL_PORT = 587
+# EMAIL_USE_TLS = True
+# EMAIL_HOST_USER = user_credentials.get('EMAIL_HOST_USER', '')
+# EMAIL_HOST_PASSWORD = user_credentials.get('EMAIL_HOST_PASSWORD', '')
 
 
 

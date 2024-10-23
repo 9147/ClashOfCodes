@@ -1934,3 +1934,11 @@ span.details-container {
       0% { transform: rotate(0deg); }
       100% { transform: rotate(360deg); }
 }
+
+
+@media (max-width:1200px) {
+  h2.h2.section-title {
+    color: var(--marigold);
+}
+  
+}

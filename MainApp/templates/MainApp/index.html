@@ -24,7 +24,7 @@
           </h1>
 
           <p class="hero-text">
-            Tech For Better Tomorrow
+            Open Source Innovation
           </p>
 
           <button onclick= {% if user.is_authenticated %} {% if team %} "window.location='https://forms.gle/ck8k2BkQTqvbGVnaA'" {% else %}"document.getElementById('popup_continue_registration').style.display='block'" {% endif %} {% else %} "register()" {% endif %} class="btn skewBg">{% if user.is_authenticated %} {% if team %} Make Submission {% else %} Continue Registration {% endif %} {% else %} Register Now! {% endif %}</button>
@@ -306,8 +306,7 @@
           </h2>
 
           <p class="section-text">
-            Compete With 100 Players On A Remote Island For Winner Takes Showdown Known Issue Where Certain Skin
-            Strategic
+            See your in the battlefield, where the best will rise and the winners will shine!
           </p>
 
 
@@ -324,10 +323,13 @@
             <span class="content">{{hackathon_end}}</span>
           </span>
           <span class="holder">
-            <span class="title">Venue: </span>
+            <span class="title">Venue(Teams from India): </span>
             <span class="content"><h4>KLS GOGTE INSTITUTE OF TECHNOLOGY</h4>
               Udyambag Industrial Area, Udyambag, Belagavi, Karnataka 590006</span>
           </span>
+          <span class="holder">
+            <span class="title">Venue(Teams from outside India): </span>
+            <span class="content"><h4>Online</h4></span>
         </span>
         </span>
 
@@ -471,6 +473,13 @@
   <p><input placeholder="Member 4 name" id="member4" oninput="this.className = ''" name="member3"></p>
 </div>
 
+<div class="tab"><span class="title">Location Info:</span>
+  <p><input placeholder="College Name" id="college" oninput="this.className = ''" name="college"></p>
+  <p><input placeholder="City" id="City" oninput="this.className = ''" name="city"></p>
+  <p><input placeholder="State" id="State" oninput="this.className = ''" name="state"></p>
+  <p><input placeholder="Country" id="Country" oninput="this.className = ''" name="country"></p>
+</div>
+
 
 
 <div style="overflow:auto;">
@@ -482,6 +491,7 @@
 
 <!-- Circles which indicates the steps of the form: -->
 <div style="text-align:center;margin-top:40px;">
+  <span class="step"></span>
   <span class="step"></span>
   <span class="step"></span>
   <span class="step"></span>

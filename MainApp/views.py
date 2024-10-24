@@ -3,21 +3,22 @@ from django.contrib.auth.models import User
 from django.shortcuts import render, HttpResponse, redirect
 from django.http import JsonResponse
 from django.utils.crypto import get_random_string
-from .serializers import TeamSerializer, userSerializer
+from .serializers import userSerializer
 from .models import UserToken
-from django.contrib.auth import authenticate, login
-from .models import Team, submissiontime, contact, submissiontime, Problem
+from django.contrib.auth import authenticate, login, logout
+from .models import Team, submissiontime, contact, submissiontime, Problem, ladingPage
 from django.template.loader import render_to_string
-from django.http import FileResponse, Http404
-from django.conf import settings
-import os
 
 # Create your views here.
 def home(request):
     user = request.user
     context = {'user': user}
     # check if team of user is created
-
+    # get landing page status
+    if user.is_authenticated:
+        landing_page, created = ladingPage.objects.get_or_create(user=user)
+        if not created and landing_page.is_set:
+            return redirect('MainApp:user')
     try:
         context['registration']= submissiontime.objects.get(tag='closingtime').submission_time.strftime("%B %d, %Y")
         context['idea']= submissiontime.objects.get(tag='idea').submission_time.strftime("%B %d, %Y")
@@ -291,6 +292,7 @@ def submission(request):
         problem_title = request.POST.get('problem-title')
         problem_statement = request.POST.get('problem-description')
         solution_description = request.POST.get('solution-description')
+        domain = request.POST.get('domain')
         solution_file = request.FILES.get('Idea-ppt')  # Ensure to fetch the file from FILES, not POST
         try:
             team = Team.objects.get(leader=request.user)
@@ -306,6 +308,7 @@ def submission(request):
             description=problem_statement,
             solution=solution_description,
             team=team,
+            domain=domain,
             solution_pdf=solution_file  # Assign the file to the model's FileField
         )
         problem.save()
@@ -314,3 +317,44 @@ def submission(request):
     
     return render(request, 'MainApp/submission.html')
 
+def logout_user(request):
+    logout(request)
+    return render(request, 'MainApp/activation.html', {'message': 'Logout successful!'})
+
+def user_view(request):
+    # check if user is authenticated
+    if not request.user.is_authenticated:
+        return redirect('MainApp:login')
+    # check if langing page is set
+    landing_page, created = ladingPage.objects.get_or_create(user=request.user)
+    # check if user has team
+    print(landing_page.is_set)
+    context = {'landing_page': landing_page.is_set}
+    try:
+        team = Team.objects.get(leader=request.user)
+        context['team'] =  team
+    except Team.DoesNotExist:
+        context['team'] = None
+        context['message'] = "1"
+        return render(request, 'MainApp/user.html', context)
+    # check if user has submitted problem statement
+    try:
+        problem = Problem.objects.get(team=team)
+        context['problem'] = problem
+    except Problem.DoesNotExist:
+        context['problem'] = None
+        context['message'] = "2"
+        return render(request, 'MainApp/user.html', context)
+    return render(request, 'MainApp/user.html', context)
+
+def update_landing_page(request):
+    if request.method == 'POST':
+        is_set = request.POST.get('is_set')
+        is_set = True if is_set.lower() == 'true' else False
+        user = request.user
+        landing_page = ladingPage.objects.get(user=user)
+        landing_page.is_set = is_set
+        landing_page.save()
+        print(landing_page.is_set)
+        return JsonResponse({'message': 'Landing page updated successfully!'}, status=200)
+    return JsonResponse({'message': 'Landing page could not be updated!'}, status=404)

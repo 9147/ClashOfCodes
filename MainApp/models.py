@@ -84,9 +84,23 @@ class Problem(models.Model):
     team = models.OneToOneField(Team, on_delete=models.CASCADE)
     description = models.TextField()
     solution = models.TextField()
+    domain = models.CharField(max_length=100,default='web')
     # solution pdf and ppt - use custom upload_to function
     solution_pdf = models.FileField(upload_to=UploadToPathAndRename('solutions/'), blank=True, null=True)
+    status_choice = [
+        ('Pending', 'Pending'),
+        ('Accepted', 'Accepted'),
+    ]
+    status = models.CharField(max_length=10, choices=status_choice, default='Pending')
 
     def __str__(self):
         return self.title
+    
+class ladingPage(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='landing_page', primary_key=True)
+    is_set = models.BooleanField(default=False)
+
+    def __str__(self):
+        return self.user.username
+    
 

@@ -27,7 +27,7 @@
             Open Source Innovation
           </p>
 
-          <button onclick= {% if user.is_authenticated %} {% if team %} {% if problem %} "window.location='https://chat.whatsapp.com/DOaKmPa64hNIhR5O77k1Qp'" {% else %} "window.location='./submission'" {% endif %} {% else %}"document.getElementById('popup_continue_registration').style.display='block'" {% endif %} {% else %} "register()" {% endif %} class="btn skewBg">{% if user.is_authenticated %} {% if team %}{% if problem %} Join Group! {% else %} Make Submission {% endif %} {% else %} Continue Registration {% endif %} {% else %} Register Now! {% endif %}</button>
+          <button onclick= {% if user.is_authenticated %} {% if team %} {% if problem %} "window.location='../user'" {% else %} "window.location='./submission'" {% endif %} {% else %}"document.getElementById('popup_continue_registration').style.display='block'" {% endif %} {% else %} "register()" {% endif %} class="btn skewBg">{% if user.is_authenticated %} {% if team %}{% if problem %} User Portal {% else %} Make Submission {% endif %} {% else %} Continue Registration {% endif %} {% else %} Register Now! {% endif %}</button>
 
         </div>
 

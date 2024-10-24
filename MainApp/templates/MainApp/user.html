@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/user.css' %}">
+</head>
+<body style="background-image: url(/static/images/hero-bg.jpg);">
+    <div class="nav">
+        <div class="menu menu-start">
+            <ion-icon name="play-back-sharp" onclick="OpenHome()" class="click" style="font-size: 4rem;font-weight: 900;color:white"></ion-icon>
+        </div>
+        <div class="menu menu-end">
+
+            <ion-icon name="log-out-sharp" class="click" onclick="window.location='../logout'" style="font-size: 4rem;font-weight: 900;color:white"></ion-icon>
+        </div>
+    </div>
+    <div class="container" >
+        <h1 style="color:white">Welcome, {{ user.first_name }}</h1>
+        <div class="container-info">
+        {% if message %}
+            <div class="message-container">
+                {% if message == '1' %}
+                <img src="{% static 'images/messager-1.png' %}" alt="messager">
+                {% else %}
+                <img src="{% static 'images/messager-2.png' %}" alt="messager">
+                {% endif %}
+            </div>
+        {%else %}
+            <h3>Please join the whatsapp group to stay in touch! <a href="https://chat.whatsapp.com/DOaKmPa64hNIhR5O77k1Qp">Click</a></h3>
+            <div class="info-conatiner">
+                <div class="team-details">
+                    <table border="1">
+                        <tr>
+                            <th>Team Name</th>
+                            <td>{{ team.name }}</td>
+                        </tr>
+                        <tr>
+                            <th>Leader Contact</th>
+                            <td>{{ team.leader_contact }}</td>
+                        </tr>
+                        <tr>
+                            <th>Member 1</th>
+                            <td>{{ team.member1_name }}</td>
+                        </tr>
+                        <tr>
+                            <th>Member 2</th>
+                            <td>{{ team.member2_name }}</td>
+                        </tr>
+                        <tr>
+                            <th>Member 3</th>
+                            <td>{{ team.member3_name }}</td>
+                        </tr>
+
+
+                        <tr>
+                            <th>Problem Statement</th>
+                            <td>{{ problem.title }}</td>
+                        </tr>
+                        <tr>
+                            <th>Problem Description</th>
+                            <td>{{ problem.description }}</td>
+                        </tr>
+                        <tr>
+                            <th>Domain</th>
+                            <td>{{ problem.domain }}</td>
+                        </tr>
+                        <tr>
+                            <th>Submission</th>
+                            <td>{{ problem.description }}</td>
+                        </tr>
+                        <tr>
+                            <th>Submission File</th>
+                            <td><a href="../media/{{  problem.solution_pdf }}" >View</a></td>
+                        </tr>
+                        <tr>
+                            <th>Submission Status</th>
+                            <td>{{ problem.status }}</td>
+                        </tr>
+
+                    </table>
+
+                </div>
+
+            </div>
+        {% endif %}
+    </div>
+    </div>
+    <div class="footer">
+        <span class="setting-title">
+            Set as landing page 
+        </span>
+        {% csrf_token %}
+        <label class="switch">
+            <input type="checkbox" id="is_set" {% if landing_page %} checked {% endif %} onchange="updateLandingPage()">
+            <span class="slider"></span>
+          </label>
+    </div>
+</body>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+<script src="{% static 'js/jquery-3.7.1.min.js' %}"></script>
+<script src="{% static 'js/user.js' %}" defer></script>
+
+<script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+<script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+</html>

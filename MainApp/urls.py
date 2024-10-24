@@ -12,4 +12,7 @@ urlpatterns = [
     path('contact/', views.contactview, name='contact'),
     path('get_form_closing_time/', views.get_form_closing_time, name='get_form_closing_time'),
     path('submission/', views.submission, name='submission'),
+    path('logout/', views.logout_user, name='logout'),
+    path('user/', views.user_view, name='user'),
+    path('update_landing_page/', views.update_landing_page, name='update_landing_page'),
 ]

@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Team, UserToken, submissiontime, contact, Problem
+from .models import Team, UserToken, submissiontime, contact, Problem, ladingPage
 
 # Register your models here.
 @admin.register(Team)
@@ -34,7 +34,14 @@ class contactAdmin(admin.ModelAdmin):
 
 @admin.register(Problem)
 class ProblemAdmin(admin.ModelAdmin):
-    list_display = ['title', 'team', 'description', 'solution','solution_pdf']
-    sortable_by = ['title', 'team', 'description', 'solution','solution_pdf']
-    search_fields = ['title', 'team', 'description', 'solution','solution_pdf']
-    list_filter = ['title', 'team', 'description', 'solution','solution_pdf']
+    list_display = ['title', 'team', 'description', 'solution','solution_pdf','domain']
+    sortable_by = ['title', 'team', 'description', 'solution','solution_pdf','domain']
+    search_fields = ['title', 'team', 'description', 'solution','solution_pdf','domain']
+    list_filter = ['title', 'team', 'description', 'solution','solution_pdf','domain']
+
+@admin.register(ladingPage)
+class landingPageAdmin(admin.ModelAdmin):
+    list_display = ['user','is_set']
+    sortable_by = ['user','is_set']
+    search_fields = ['user','is_set']
+    list_filter = ['user','is_set']

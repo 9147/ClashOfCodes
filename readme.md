@@ -1,98 +1,85 @@
-# Clash of Codes Server
+# Let's create the README.md file with the provided content.
 
-This repository contains the backend server code for the **Clash of Codes** hackathon. The server is built using Django and provides necessary APIs and services for the hackathon participants.
+readme_content = """
+# Clash of Codes Hackathon Website
 
-- **Hackathon Name:** Clash of Codes
-- **Server Repository:** [Clash of Codes Server](https://github.com/9147/ClashOfCodesServer)
-- **Static Site Repository:** [Clash of Codes Static Site](https://github.com/9147/ClashOfCodes)
+Welcome to the official repository for **Clash of Codes**, a hackathon inspired by the excitement and intensity of coding battles, similar to the **Clash of Clans** game. This site is designed to provide all the necessary information about our hackathon, which is set to take place on **November 29th and 30th**. The website is built using the **Django** framework and provides participants with essential event details, registration information, schedules, and more.
 
-## Table of Contents
+## Hackathon Overview
 
-- [About the Project](#about-the-project)
-- [Features](#features)
-- [Tech Stack](#tech-stack)
-- [Installation](#installation)
-- [Running the Server](#running-the-server)
-- [API Endpoints](#api-endpoints)
-- [Contributing](#contributing)
-- [License](#license)
+**Clash of Codes** is a competitive programming event where developers from all levels come together to solve real-world problems in a challenging, fun, and innovative environment. The event will feature various tracks and challenges designed to push your coding skills to the limit.
 
-## About the Project
+- **Date**: November 29th & 30th, 2024
+- **Location**: Online
+- **Event URL**: [clashofcodes.in](https://clashofcodes.in)
 
-The **Clash of Codes** hackathon server handles user registration, authentication, and API management for the hackathon. This backend is hosted on PythonAnywhere, while the frontend static site is hosted on GitHub Pages.
-
-- **Static Site URL:** [Clash of Codes Static Site](https://github.com/9147/ClashOfCodes)
-  
 ## Features
 
-- User Registration and Authentication
-- API for managing teams and participants
-- Admin panel for managing events and users
-- Secure Token-based authentication for participants
-- Rate-limiting and email verification
-- Integrated with the static site
+- **Event Registration**: Allows users to register for the event.
+- **Event Schedule**: Displays the detailed timeline of the hackathon.
+- **Leaderboard**: Tracks participants’ progress and ranks based on their performance.
+- **Problem Statements**: Provides challenges for participants to solve during the hackathon.
+- **Judging Criteria**: Explains how submissions will be evaluated.
+- **Contact Information**: Provides ways to reach out to the organizing team.
 
-## Tech Stack
+## Technology Stack
 
-- **Backend:** Django, Django REST Framework
-- **Database:** SQLite (or any other configured DB in production)
-- **Email:** Configured for email verification
-- **Hosting:** PythonAnywhere
+- **Backend**: Django (Python)
+- **Frontend**: HTML, CSS, JavaScript
+- **Database**: SQLite (can be switched to PostgreSQL or MySQL for production)
+- **Deployed on**: Hosted on [clashofcodes.in](https://clashofcodes.in)
 
-## Installation
+## Installation & Setup
 
-To get a local copy up and running, follow these simple steps.
+To get a local copy of the site up and running for development purposes, follow these steps:
 
 ### Prerequisites
+- Python 3.x
+- Django 4.x
+- Git
 
-- Python 3.8+
-- Virtual Environment (recommended)
-- Django 3.2+
-- Django REST Framework
+### Steps
 
-### Installation Steps
+1. **Clone the repository**:
+    \`\`\`bash
+    git clone https://github.com/yourusername/clashofcodes.git
+    cd clashofcodes
+    \`\`\`
 
-1. Clone the repository:
-    ```bash
-    git clone https://github.com/9147/ClashOfCodesServer.git
-    ```
+2. **Create a virtual environment and activate it**:
+    \`\`\`bash
+    python3 -m venv env
+    source env/bin/activate  # On Windows use `env\\Scripts\\activate`
+    \`\`\`
 
-2. Navigate to the project directory:
-    ```bash
-    cd ClashOfCodesServer
-    ```
-
-3. Create a virtual environment:
-    ```bash
-    python -m venv venv
-    source venv/bin/activate  # On Windows use `venv\Scripts\activate`
-    ```
-
-4. Install the dependencies:
-    ```bash
+3. **Install the dependencies**:
+    \`\`\`bash
     pip install -r requirements.txt
-    ```
+    \`\`\`
 
-5. Create `.env` file and set the required environment variables (such as secret key, email config, etc.).
-
-6. Apply migrations:
-    ```bash
+4. **Run migrations**:
+    \`\`\`bash
     python manage.py migrate
-    ```
+    \`\`\`
 
-7. Create a superuser:
-    ```bash
-    python manage.py createsuperuser
-    ```
-
-8. Run the development server:
-    ```bash
+5. **Run the development server**:
+    \`\`\`bash
     python manage.py runserver
-    ```
+    \`\`\`
 
-## Running the Server
+Visit `http://127.0.0.1:8000/` in your browser to view the site.
 
-To run the server locally:
+## Contribution Guidelines
 
-```bash
-python manage.py runserver
+We welcome contributions! Please fork the repository and submit pull requests for any improvements or bug fixes. Make sure to follow proper coding standards and test thoroughly before submitting.
+
+---
+
+Happy Coding!
+"""
+
+# Write the content to a README.md file
+with open("/mnt/data/README.md", "w") as readme_file:
+    readme_file.write(readme_content)
+
+"/mnt/data/README.md"

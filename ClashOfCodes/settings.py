@@ -18,8 +18,15 @@ from datetime import timedelta
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 USER_CREDENTIALS_FILE = os.path.join(BASE_DIR, 'user.json')
+SITE_SETTINGS_FILE = os.path.join(BASE_DIR, 'site_settings.json')
 
 
+# Try loading the credentials from the user.json file
+try:
+    with open(SITE_SETTINGS_FILE, 'r') as f:
+        site_settings = json.load(f)
+except (FileNotFoundError, json.JSONDecodeError):
+    site_settings = {}
 
 
 # Try loading the credentials from the user.json file
@@ -34,10 +41,10 @@ except (FileNotFoundError, json.JSONDecodeError):
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-0gmh0i@g5l9r+q^i1fd^9#t&qtm6t5w-*32=+me0%&x38$x*z#"
+SECRET_KEY = site_settings.get('SECRET_KEY', '')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = True if site_settings.get('DEBUG', "False") == 'True' else False
 
 ALLOWED_HOSTS = ["*"]
 

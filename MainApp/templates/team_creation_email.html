@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Team Creation Confirmation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            padding: 0;
+            margin: 0;
+        }
+        .email-container {
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            max-width: 600px;
+            margin: 20px auto;
+        }
+        h2 {
+            color: #333;
+        }
+        p {
+            font-size: 16px;
+            line-height: 1.5;
+            color: #555;
+        }
+        .team-info {
+            margin: 20px 0;
+        }
+        a {
+            background-color: #1a73e8;
+            color: white;
+            padding: 10px 15px;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+        .footer {
+            margin-top: 30px;
+            font-size: 14px;
+            color: #888;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="email-container">
+        <h2>Hi {{ user.first_name }},</h2>
+        <p>Your team has been successfully created. You can now submit your idea for the hackathon!</p>
+
+        <div class="team-info">
+            <p><strong>Team Name:</strong> {{ team.name }}</p>
+            <p><strong>Leader Contact:</strong> {{ team.leader_contact }}</p>
+            <p><strong>Member 1:</strong> {{ team.member1_name }}</p>
+            <p><strong>Member 2:</strong> {{ team.member2_name }}</p>
+            <p><strong>Member 3:</strong> {{ team.member3_name }}</p>
+        </div>
+
+        <p>Please join the WhatsApp group for further information:</p>
+        <p><a href="{{ whatsapp_link }}">Join WhatsApp Group</a></p>
+
+        <p>If you have any questions, feel free to reply to this email or contact our support team.</p>
+
+        <div class="footer">
+            Regards,<br>
+            Clash of Codes Team
+        </div>
+    </div>
+</body>
+</html>

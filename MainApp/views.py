@@ -1,4 +1,4 @@
-from django.core.mail import EmailMessage
+from django.core.mail import EmailMessage, EmailMultiAlternatives
 from django.contrib.auth.models import User
 from django.shortcuts import render, HttpResponse, redirect
 from django.http import JsonResponse
@@ -7,6 +7,7 @@ from .serializers import TeamSerializer, userSerializer
 from .models import UserToken
 from django.contrib.auth import authenticate, login
 from .models import Team, submissiontime, contact, submissiontime, Problem
+from django.template.loader import render_to_string
 
 # Create your views here.
 def home(request):
@@ -60,22 +61,37 @@ def register_user(request):
     activation_link = f"{protocol}://{domain}/activate/{user.pk}/{user_token.token}/"
 
     # Render email content with context
-    # message = render_to_string('email_verification.html', {
-    #     'user': user,
-    #     'activation_link': activation_link,
-    # })
+   # Render HTML email content with context
+    html_message = render_to_string('email_verification.html', {
+        'user': user,
+        'activation_link': activation_link,
+    })
 
-    message = f"Hi {user.first_name},\n\nYour account has been created successfully. Please click the link below to activate your account.\n\nActivation Link: {activation_link}\n\nIf you did not create an account, please ignore this email.\n\nRegards,\nClash of Codes Team"
+    # Create a plain text version as a fallback
+    plain_message = f"""
+    Hi {user.first_name or user.email},
+    
+    Thank you for registering for Clash of Codes. Please click the link below to verify your email and activate your account:
+    
+    Activation Link: {activation_link}
+    
+    If you did not create this account, please ignore this email.
+    
+    Regards,
+    The Clash of Codes Team
+    """
 
-    # Create and send an email message as HTML
-    email_message = EmailMessage(
-        mail_subject,
-        body=message,
-        from_email='noreply@clashofcodes.in',  # From email
-        to=[email],   
-        reply_to=['contact@clashofcodes.in']
+    # Create the email object using EmailMultiAlternatives
+    email_message = EmailMultiAlternatives(
+        subject=mail_subject,                 # Email subject
+        body=plain_message,                   # Plain text body
+        from_email='noreply@clashofcodes.in', # From email address
+        to=[email],                           # Recipient's email
+        reply_to=['contact@clashofcodes.in']  # Reply-to address
     )
-    # email_message.content_subtype = 'html'  # Set content type to HTML
+
+    # Attach the HTML content as an alternative
+    email_message.attach_alternative(html_message, "text/html")
     email_message.send(fail_silently=False)
 
     if created:
@@ -99,17 +115,44 @@ def activate_user(request, uidb64, token):
                 user.set_password(new_password)
                 user.save()
 
-                # Send the new password via email
                 mail_subject = 'Your account has been activated'
-                html_content = f"Hi {user.first_name},\n\nYour account has been activated. Your new password is: {new_password}\n\nPlease use this password to log in."
-                email = EmailMessage(
-                    subject=mail_subject,
-                    body=html_content,
-                    from_email='noreply@clashofcodes.in',
-                    to=[user.email],
-                    reply_to=['contact@clashofcodes.in'],
+
+                # Render the HTML email content using the template
+                html_content = render_to_string('account_activation.html', {
+                    'user': user,
+                    'new_password': new_password,
+                })
+
+                # Create a plain text version as a fallback
+                plain_text_content = f"""
+                Hi {user.first_name},
+
+                Your account has been successfully activated.
+
+                Your new password is: {new_password}
+
+                Please use this password to log in, and make sure to change your password after logging in for security reasons.
+
+                If you did not request this activation or have any concerns, please contact our support team at contact@clashofcodes.in.
+
+                Regards,
+                Clash of Codes Team
+                """
+
+                # Create the email object using EmailMultiAlternatives
+                email_message = EmailMultiAlternatives(
+                    subject=mail_subject,                       # Email subject
+                    body=plain_text_content,                    # Plain text body
+                    from_email='noreply@clashofcodes.in',       # From email address
+                    to=[user.email],                            # Recipient's email
+                    reply_to=['contact@clashofcodes.in'],       # Reply-to email
                 )
-                email.send(fail_silently=False)
+
+                # Attach the HTML content as an alternative
+                email_message.attach_alternative(html_content, "text/html")
+
+                # Send the email
+                email_message.send(fail_silently=False)
                 
                 return render(request, 'MainApp/activation.html', {'message': 'Account activated successfully! Check your email for the new password.'})
             else:
@@ -122,41 +165,95 @@ def activate_user(request, uidb64, token):
     
 def create_team(request):
     print(request.POST)
-    # get user
+    
+    # Get user
     user = User.objects.get(username=request.user.username)
+    
+    # Check if the user already has a team
     try:
         team = Team.objects.get(leader=user)
-    except Exception as e:
-        team = None
-    if team:
-        return JsonResponse({'error': 'Team already exists'}, status=400)
+        if team:
+            return JsonResponse({'error': 'Team already exists'}, status=400)
+    except Team.DoesNotExist:
+        pass  # Team does not exist, so we proceed
+
+    # Serialize user data
     userserializer = userSerializer(user)
-    data={
-        'name':request.POST.get('TeamName'),
-        'leader_contact':request.POST.get('phoneno'),
-        'member1_name':request.POST.get('member1'),
-        'member2_name':request.POST.get('member2'),
-        'member3_name':request.POST.get('member3'),
-        'city':request.POST.get('city'),
-        'state':request.POST.get('state'),
-        'country':request.POST.get('country'),
-        'college':request.POST.get('college'),
+
+    # Gather team data from POST request
+    data = {
+        'name': request.POST.get('TeamName'),
+        'leader_contact': request.POST.get('phoneno'),
+        'member1_name': request.POST.get('member1'),
+        'member2_name': request.POST.get('member2'),
+        'member3_name': request.POST.get('member3'),
+        'city': request.POST.get('city'),
+        'state': request.POST.get('state'),
+        'country': request.POST.get('country'),
+        'college': request.POST.get('college'),
     }
-    team = Team.objects.create(name=data['name'],leader=user,leader_contact=data['leader_contact'],member1_name=data['member1_name'],member2_name=data['member2_name'],member3_name=data['member3_name'])
-    team.save()
-    # send a mail to the users registered mail id that the team has been created
-    mail_subject = 'Team Created'
-    message = f"Hi {user.first_name},\n\nYour team has been created successfully. You can now submit your idea.\n\nTeam Name: {team.name}\nLeader Contact: {team.leader_contact}\nMember 1: {team.member1_name}\nMember 2: {team.member2_name}\nMember 3: {team.member3_name}\n\nPlease join the whatsapp group for funter info. \n\nLink: https://chat.whatsapp.com/DOaKmPa64hNIhR5O77k1Qp"
-    email = EmailMessage(
-        subject=mail_subject, 
-        body=message, 
-        from_email='noreply@clashofcodes.in',
-        to=[user.email],
-        reply_to=['contact@clashofcodes.in'],
-    )
-    email.send(fail_silently=False)
+
+    # Create and save the team
+    try:
+        team = Team.objects.create(
+            name=data['name'],
+            leader=user,
+            leader_contact=data['leader_contact'],
+            member1_name=data['member1_name'],
+            member2_name=data['member2_name'],
+            member3_name=data['member3_name']
+        )
+        team.save()
+
+        # Email details
+        mail_subject = 'Team Created Successfully'
+
+        # Plain text email version
+        plain_message = f"""
+        Hi {user.first_name},
+
+        Your team has been created successfully. You can now submit your idea.
+
+        Team Name: {team.name}
+        Leader Contact: {team.leader_contact}
+        Member 1: {team.member1_name}
+        Member 2: {team.member2_name}
+        Member 3: {team.member3_name}
+
+        Please join the WhatsApp group for further information:
+        WhatsApp Link: https://chat.whatsapp.com/DOaKmPa64hNIhR5O77k1Qp
+
+        Regards,
+        Clash of Codes Team
+        """
+
+        # HTML email version
+        html_message = render_to_string('emails/team_creation_email.html', {
+            'user': user,
+            'team': team,
+            'whatsapp_link': "https://chat.whatsapp.com/DOaKmPa64hNIhR5O77k1Qp"
+        })
+
+        # Create email with both plain text and HTML
+        email = EmailMultiAlternatives(
+            subject=mail_subject,
+            body=plain_message,
+            from_email='noreply@clashofcodes.in',
+            to=[user.email],
+            reply_to=['contact@clashofcodes.in']
+        )
+
+        # Attach the HTML version
+        email.attach_alternative(html_message, "text/html")
+
+        # Send the email
+        email.send(fail_silently=False)
+
+    except Exception as e:
+        return JsonResponse({'error': str(e)}, status=500)
+
+    # Redirect to home page after team creation
     return redirect('MainApp:home')
-    
 
 def loginPage(request):
     if request.method == 'POST':

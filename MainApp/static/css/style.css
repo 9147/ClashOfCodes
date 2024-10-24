@@ -1969,3 +1969,20 @@ span.details-container {
   justify-content: center;
   max-height: 70vh;
 }
+
+div#swal2-content {
+  font-size: var(--fs-6);
+}
+h2#swal2-title {
+  font-size: var(--fs-3);
+}
+button.swal2-confirm.swal2-styled {
+  font-size: var(--fs-5);
+}
+
+select#domain {
+  color: black;
+  font-size: var(--fs-4);
+  text-align: center;
+  width: 100%;
+}

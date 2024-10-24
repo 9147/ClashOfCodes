@@ -200,6 +200,8 @@ function RegisterAccount(event) {
 
 
 
+
+
 function LoginUser(){
   var ele = document.getElementById('popup_login');
   ele.style.display = 'block';
@@ -246,6 +248,9 @@ function LoginAccount(){
 
 function updateTitle() {
   const heroTitle = document.getElementById('brand-text');
+  if (! heroTitle ){
+    return;
+  }
   if (window.innerWidth < 600) {
     heroTitle.innerHTML = 'X';
     heroTitle.style.fontSize = '6rem';
@@ -270,6 +275,10 @@ showTab(currentTab); // Display the current tab
 function showTab(n) {
   // This function will display the specified tab of the form ...
   var x = document.getElementsByClassName("tab");
+  // if x is undefined, return
+  if (x.length == 0) {
+    return;
+  }
   x[n].style.display = "flex";
   // ... and fix the Previous/Next buttons:
   if (n == 0) {
@@ -299,6 +308,8 @@ function nextPrev(n) {
   if (currentTab >= x.length) {
     //...the form gets submitted:
     document.getElementById("regForm").submit();
+    document.getElementById('loadingOverlay').style.display = 'flex';
+
     return false;
   }
   // Otherwise, display the correct tab:
@@ -340,9 +351,13 @@ function fixStepIndicator(n) {
 
 
 function adjustMembers() {
-  var teamStrength = document.getElementById("team_strength").value;
-  var member4 = document.getElementById("member4");
 
+  var teamStrength = document.getElementById("team_strength");
+  var member4 = document.getElementById("member4");
+  if (!member4 || !teamStrength) {
+      return;
+  }
+  teamStrength = teamStrength.value;
   console.log("Team Strength:", teamStrength);
   
   // Show/hide member 4 input based on the selected team strength
@@ -360,3 +375,18 @@ function adjustMembers() {
 window.onload = function() {
   adjustMembers(); // Call this to set the initial visibility and state
 };
+
+
+document.getElementById('Idea-ppt').addEventListener('change', function() {
+  var file = this.files[0];  // Get the uploaded file
+  console.log("File Size:", file.size);
+  if (file.size > 2097152) {  // 2MB in bytes
+      Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'The file size must be less than 2MB!',
+      });
+      this.value = '';  // Clear the file input
+  }
+});
+console.log(document.getElementById('Idea-ppt'));

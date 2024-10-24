@@ -8,6 +8,9 @@ from .models import UserToken
 from django.contrib.auth import authenticate, login
 from .models import Team, submissiontime, contact, submissiontime, Problem
 from django.template.loader import render_to_string
+from django.http import FileResponse, Http404
+from django.conf import settings
+import os
 
 # Create your views here.
 def home(request):
@@ -310,3 +313,4 @@ def submission(request):
         return render(request, 'MainApp/activation.html', {'message': 'Problem statement submitted successfully!'})
     
     return render(request, 'MainApp/submission.html')
+

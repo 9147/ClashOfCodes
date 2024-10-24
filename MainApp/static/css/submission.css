@@ -26,7 +26,6 @@ textarea, input {
     background-color: transparent;
 }
 select#domain {
-    color: black;
     font-size: var(--fs-4);
 }
 

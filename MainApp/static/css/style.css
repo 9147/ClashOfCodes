@@ -1981,7 +1981,8 @@ button.swal2-confirm.swal2-styled {
 }
 
 select#domain {
-  color: black;
+  background-color: transparent;
+  color: white;
   font-size: var(--fs-4);
   text-align: center;
   width: 100%;

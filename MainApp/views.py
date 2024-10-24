@@ -173,7 +173,7 @@ def create_team(request):
     try:
         team = Team.objects.get(leader=user)
         if team:
-            return JsonResponse({'error': 'Team already exists'}, status=400)
+            return render(request, 'MainApp/activation.html', {'message': 'You already have a team!'})
     except Team.DoesNotExist:
         pass  # Team does not exist, so we proceed
 
@@ -228,7 +228,7 @@ def create_team(request):
         """
 
         # HTML email version
-        html_message = render_to_string('emails/team_creation_email.html', {
+        html_message = render_to_string('team_creation_email.html', {
             'user': user,
             'team': team,
             'whatsapp_link': "https://chat.whatsapp.com/DOaKmPa64hNIhR5O77k1Qp"
@@ -250,10 +250,10 @@ def create_team(request):
         email.send(fail_silently=False)
 
     except Exception as e:
-        return JsonResponse({'error': str(e)}, status=500)
+        return render(request, 'MainApp/activation.html', {'message': 'Team creation failed!'})
 
     # Redirect to home page after team creation
-    return redirect('MainApp:home')
+    return render(request, 'MainApp/activation.html', {'message': 'Team created successfully!'})
 
 def loginPage(request):
     if request.method == 'POST':

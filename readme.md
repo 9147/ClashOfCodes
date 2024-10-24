@@ -1,6 +1,3 @@
-# Let's create the README.md file with the provided content.
-
-readme_content = """
 # Clash of Codes Hackathon Website
 
 Welcome to the official repository for **Clash of Codes**, a hackathon inspired by the excitement and intensity of coding battles, similar to the **Clash of Clans** game. This site is designed to provide all the necessary information about our hackathon, which is set to take place on **November 29th and 30th**. The website is built using the **Django** framework and provides participants with essential event details, registration information, schedules, and more.

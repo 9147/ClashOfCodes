@@ -380,6 +380,8 @@ window.onload = function() {
 document.getElementById('Idea-ppt').addEventListener('change', function() {
   var file = this.files[0];  // Get the uploaded file
   console.log("File Size:", file.size);
+  
+  // Check the file size
   if (file.size > 2097152) {  // 2MB in bytes
       Swal.fire({
           icon: 'error',
@@ -387,6 +389,17 @@ document.getElementById('Idea-ppt').addEventListener('change', function() {
           text: 'The file size must be less than 2MB!',
       });
       this.value = '';  // Clear the file input
+      return; // Exit the function
+  }
+
+  // Check the file extension
+  var allowedExtensions = /(\.pdf)$/i; // Regular expression for allowed extensions
+  if (!allowedExtensions.exec(file.name)) {
+      Swal.fire({
+          icon: 'error',
+          title: 'Invalid File Type',
+          text: 'Only .pdf files are allowed!',
+      });
+      this.value = '';  // Clear the file input
   }
 });
-console.log(document.getElementById('Idea-ppt'));

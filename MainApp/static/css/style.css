@@ -1986,3 +1986,11 @@ select#domain {
   text-align: center;
   width: 100%;
 }
+
+option{
+  color:black;
+}
+
+.input-wrapper>input {
+  color: black;
+}

@@ -39,3 +39,6 @@ pip-log.txt
 
 user.json
 site_settings.json
+
+# ignore media files
+media/

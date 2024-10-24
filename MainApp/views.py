@@ -288,17 +288,25 @@ def submission(request):
         problem_title = request.POST.get('problem-title')
         problem_statement = request.POST.get('problem-description')
         solution_description = request.POST.get('solution-description')
+        solution_file = request.FILES.get('Idea-ppt')  # Ensure to fetch the file from FILES, not POST
         try:
             team = Team.objects.get(leader=request.user)
         except Team.DoesNotExist:
             team = None
+
         if not team:
-            return render(request,'MainApp/activation.html', {'message': 'Team not found!'})
-        # problem_solution_file = request.FILES.get('problem_solution_file')
-        # if not problem_solution_file:
-        #     return JsonResponse({'error': 'Problem solution file is required'}, status=404)
-        problem = Problem.objects.create(title=problem_title, description=problem_statement,solution=solution_description, team=team)
+            return render(request, 'MainApp/activation.html', {'message': 'Team not found!'})
+
+        # Create the problem and attach the file
+        problem = Problem.objects.create(
+            title=problem_title,
+            description=problem_statement,
+            solution=solution_description,
+            team=team,
+            solution_pdf=solution_file  # Assign the file to the model's FileField
+        )
         problem.save()
 
-        return render(request,'MainApp/activation.html', {'message': 'Problem statement submitted successfully!'})
-    return render(request,'MainApp/submission.html')
+        return render(request, 'MainApp/activation.html', {'message': 'Problem statement submitted successfully!'})
+    
+    return render(request, 'MainApp/submission.html')

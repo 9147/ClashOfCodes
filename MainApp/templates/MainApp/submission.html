@@ -19,7 +19,7 @@
         <div class="container-submission">
   
          <h1>Submission</h1>
-         <form method="post" >
+         <form method="post" enctype="multipart/form-data">
             {% csrf_token %}
             <table>
                 <tr>
@@ -56,6 +56,11 @@
               </select></td>
             </div>
             </tr>
+            <tr>
+            <div class="form-group">
+              <td><label for="Idea-ppt">Idea ppt (ppt/pdf format with max size 2mb):</label></td>
+              <td><input type="file" class="form-control-file" id="Idea-ppt" name="Idea-ppt" required accept=".pdf,.ppt"></td>
+              </tr>
             <tr >
                 <td colspan="2" style="width:100%">
                     <span style="width:100%;display: flex;justify-content: center;"><button type="submit" class="btn newsletter-btn skewBg">submit</button></span></td>

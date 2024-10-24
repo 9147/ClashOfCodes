@@ -38,3 +38,4 @@ pip-log.txt
 */static/admin/*
 
 user.json
+site_settings.json

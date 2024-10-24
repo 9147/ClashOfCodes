@@ -36,31 +36,29 @@ To get a local copy of the site up and running for development purposes, follow 
 ### Steps
 
 1. **Clone the repository**:
-    \`\`\`bash
-    git clone https://github.com/9147/clashofcodes.git
-    cd clashofcodes
-    \`\`\`
+    ```git clone https://github.com/9147/clashofcodes.git```
+    ```cd clashofcodes```
 
 2. **Create a virtual environment and activate it**:
-    \`\`\`bash
-    python3 -m venv env
-    source env/bin/activate  # On Windows use `env\\Scripts\\activate`
-    \`\`\`
+    ```python3 -m venv env```
+    ```source env/bin/activate  ```
+    # On Windows use ```env\\Scripts\\activate```
+    
 
 3. **Install the dependencies**:
-    \`\`\`bash
-    pip install -r requirements.txt
-    \`\`\`
+    
+    ```pip install -r requirements.txt```
+    
 
 4. **Run migrations**:
-    \`\`\`bash
-    python manage.py migrate
-    \`\`\`
+    
+    ```python manage.py migrate```
+    
 
 5. **Run the development server**:
-    \`\`\`bash
-    python manage.py runserver
-    \`\`\`
+    
+    ```python manage.py runserver```
+    
 
 Visit `http://127.0.0.1:8000/` in your browser to view the site.
 

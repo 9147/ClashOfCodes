@@ -107,7 +107,7 @@
         <div class="header-actions">
           <button class="cart-btn user" aria-label="cart" onclick={% if not user.is_authenticated %} "register()" {% else %} "window.location='./user'" {% endif %}>
             <ion-icon name="person-sharp" ></ion-icon>
-            <span class="user-name" onclick="window.location='./user'">{% if user.is_authenticated %}
+            <span class="user-name"  onclick={% if not user.is_authenticated %} "register()" {% else %} "window.location='./user'" {% endif %}>{% if user.is_authenticated %}
               {% if user.first_name|length > 8 %}
                   {{ user.first_name|slice:":7" }}..
               {% else %}

@@ -111,6 +111,7 @@ class ladingPage(models.Model):
 class ReferralCode(models.Model):
     code = models.CharField(max_length=6, primary_key=True)
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='referral_code')
+    referral_count = models.PositiveIntegerField(default=0)
 
     def __str__(self):
         return self.code

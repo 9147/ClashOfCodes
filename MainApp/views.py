@@ -6,7 +6,7 @@ from django.utils.crypto import get_random_string
 from .serializers import userSerializer
 from .models import UserToken
 from django.contrib.auth import authenticate, login, logout
-from .models import Team, submissiontime, contact, submissiontime, Problem, ladingPage
+from .models import Team, submissiontime, contact, submissiontime, Problem, ladingPage, ReferralCode
 from django.template.loader import render_to_string
 
 # Create your views here.
@@ -294,6 +294,14 @@ def submission(request):
         solution_description = request.POST.get('solution-description')
         domain = request.POST.get('domain')
         solution_file = request.FILES.get('Idea-ppt')  # Ensure to fetch the file from FILES, not POST
+        referral_code = request.POST.get('referral_code').strip()
+        # check if some user have this referal code and if yes than increase the count
+        try:
+            user = ReferralCode.objects.get(code=referral_code)
+            user.referral_count += 1
+            user.save()
+        except ReferralCode.DoesNotExist:
+            pass
         try:
             team = Team.objects.get(leader=request.user)
         except Team.DoesNotExist:
@@ -329,7 +337,9 @@ def user_view(request):
     landing_page, created = ladingPage.objects.get_or_create(user=request.user)
     # check if user has team
     print(landing_page.is_set)
-    context = {'landing_page': landing_page.is_set}
+    # get referral code
+    referral_code = ReferralCode.objects.get(user=request.user)
+    context = {'landing_page': landing_page.is_set,'referral_code': referral_code}
     try:
         team = Team.objects.get(leader=request.user)
         context['team'] =  team

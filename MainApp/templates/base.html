@@ -25,6 +25,9 @@
   <link
     href="https://fonts.googleapis.com/css2?family=Oxanium:wght@600;700;800&family=Poppins:wght@400;500;600;700;800;900&display=swap"
     rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/tippy.js@6.3.1/dist/tippy.css">
     <script src="{% static 'js/jquery-3.7.1.min.js' %}"></script>
 
   <!-- 
@@ -105,7 +108,7 @@
         </nav>
 
         <div class="header-actions">
-          <button class="cart-btn user" aria-label="cart" onclick={% if not user.is_authenticated %} "register()" {% else %} "window.location='./user'" {% endif %}>
+          <button class="cart-btn user" aria-label="cart" onclick={% if not user.is_authenticated %} "register()" {% else %} "window.location='../user'" {% endif %}>
             <ion-icon name="person-sharp" ></ion-icon>
             <span class="user-name" onclick="window.location='./user'">{% if user.is_authenticated %}
               {% if user.first_name|length > 8 %}
@@ -227,6 +230,10 @@
   <!-- 
     - ionicon link
   -->
+  <script src="https://unpkg.com/@popperjs/core@2"></script>
+  <script src="https://unpkg.com/tippy.js@6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+<script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
   <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
   <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
 

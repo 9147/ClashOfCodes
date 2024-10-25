@@ -3,6 +3,7 @@ body {
     font-family: var(--ff-oxanium);
     color: var(--black);
     margin: 0;
+    cursor: url(../images/game_cursor.png) , default !important;
     padding: 0;
     flex-direction: column;
     justify-content: flex-start;
@@ -160,15 +161,17 @@ table, th, td {
     border-collapse: collapse;
 }
 
-th,td{
-    border: hsl(42, 99%, 46%) solid 2px;
-    padding:1rem;
+th, td {
+    border-bottom: hsl(42deg 99% 46% / 52%) solid 1px;
+    padding: 1rem;
 }
 tr{
     width:100%;
 }
 th {
     vertical-align: top;
+    border-right: hsl(42deg 46.39% 97.34% / 32%) solid 1px;
+    border-radius: 5rem;
 }
 table {
     width: 100%;
@@ -213,7 +216,7 @@ img {
     display: flex;
     width: 100%;
     justify-content: space-around;
-    background-color: #ffffff;
+    background-color: #3733529e;
     padding: .5rem;
     border-radius: .2rem;
     margin: 1rem 0;
@@ -225,8 +228,8 @@ img {
     border: solid 1px;
     border-radius: 1rem;
     cursor: pointer;
-    background-color: rgb(205 202 187 / 99%);
-    color: #a79242bd;
+    background-color: transparent;
+    color: #e7e6e2bd;
 }
 .active-menu-item{
     background-color: hsl(42, 99%, 46%) !important;
@@ -241,3 +244,54 @@ img {
     }
 
 }
+
+input#referral_code {
+    width: 6rem;
+    font-size: 1.3rem;
+    background: #dfa73982;
+    border: none;
+    outline: none;
+    color: white;
+    padding: .3rem;
+    border-radius: .3rem;
+}
+h3>span>a {
+    /* text-decoration: none; */
+    display: flex;
+    gap: .2rem;
+    flex-direction: row;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
+}
+h3.sub-menu {
+    display: flex;
+    flex-direction: row;
+    align-content: center;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.info-icon {
+    display: inline-block;
+    width: 24px;
+    height: 24px;
+    color: white;
+    font-weight: bold;
+    text-align: center;
+    border-radius: 50%;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    line-height: 24px;
+    cursor: pointer;
+    border: solid 1px;
+    cursor: url(../images/cursor-select.png), pointer !important;
+  
+    /* padding: .1rem; */
+    
+}
+
+a, button, .pointer-element {
+    cursor: url(../images/cursor-select.png), pointer !important;
+  }
+  

@@ -167,6 +167,9 @@ th,td{
 tr{
     width:100%;
 }
+th {
+    vertical-align: top;
+}
 table {
     width: 100%;
     display: flex;

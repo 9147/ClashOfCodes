@@ -205,7 +205,11 @@ def create_team(request):
             leader_contact=data['leader_contact'],
             member1_name=data['member1_name'],
             member2_name=data['member2_name'],
-            member3_name=data['member3_name']
+            member3_name=data['member3_name'],
+            city=data['city'],
+            state=data['state'],
+            country=data['country'],
+            college=data['college']
         )
         team.save()
 

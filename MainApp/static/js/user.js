@@ -91,3 +91,33 @@ function changeSection(callingObject,section){
     document.getElementById(section).style.display = 'block';
 
 }
+
+
+function copyToClipboard() {
+    const input = document.getElementById("referral_code");
+
+    input.select();
+    input.setSelectionRange(0, 99999);
+
+    navigator.clipboard.writeText(input.value).then(() => {
+        // Show toast message
+        Toastify({
+            text: "Text copied!",
+            duration: 5000, // 5 seconds
+            close: true,
+            gravity: "top", // `top` or `bottom`
+            position: "center", // `left`, `center`, or `right`
+            color: "black",
+            backgroundColor: "linear-gradient(to right, #dfa739, hsla(42, 99%, 46%, 0.75))",
+        }).showToast();
+    }).catch(err => {
+        console.error("Failed to copy text: ", err);
+    });
+}
+
+tippy('.info-icon', {
+    placement: 'top', // Tooltip position
+    animation: 'shift-away', // Smooth animation
+    theme: 'light', // Custom theme
+    duration: [200, 150], // Duration for show/hide
+});

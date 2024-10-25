@@ -403,3 +403,11 @@ document.getElementById('Idea-ppt').addEventListener('change', function() {
       this.value = '';  // Clear the file input
   }
 });
+
+
+tippy('.info-icon', {
+  placement: 'top', // Tooltip position
+  animation: 'shift-away', // Smooth animation
+  theme: 'light', // Custom theme
+  duration: [200, 150], // Duration for show/hide
+});

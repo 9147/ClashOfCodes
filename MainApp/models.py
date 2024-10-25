@@ -5,6 +5,10 @@ from datetime import timedelta
 from django.utils.crypto import get_random_string
 import os
 from django.utils.deconstruct import deconstructible
+import random
+import string
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 
 class UserToken(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='token')
@@ -103,4 +107,26 @@ class ladingPage(models.Model):
     def __str__(self):
         return self.user.username
     
+
+class ReferralCode(models.Model):
+    code = models.CharField(max_length=6, primary_key=True)
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='referral_code')
+    referral_count = models.PositiveIntegerField(default=0)
+
+    def __str__(self):
+        return self.code
+
+    @staticmethod
+    def generate_code():
+        # Generates a unique 6-character alphanumeric code
+        while True:
+            code = ''.join(random.choices(string.ascii_uppercase + string.digits, k=6))
+            if not ReferralCode.objects.filter(code=code).exists():
+                return code
+
+# Signal to create referral code for new users automatically
+@receiver(post_save, sender=User)
+def create_referral_code(sender, instance, created, **kwargs):
+    if created:
+        ReferralCode.objects.create(user=instance, code=ReferralCode.generate_code())
 

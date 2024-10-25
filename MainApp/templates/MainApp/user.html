@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>User</title>
     {% load static %}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/tippy.js@6.3.1/dist/tippy.css">
     <link rel="stylesheet" href="{% static 'css/user.css' %}">
     <link rel="shortcut icon" href="{% static 'images/logo.png' %}" type="image/svg+xml">
     
@@ -31,7 +33,7 @@
                 {% endif %}
             </div>
         {%else %}
-            <h3>Please join the whatsapp group to stay in touch! <a href="https://chat.whatsapp.com/DOaKmPa64hNIhR5O77k1Qp">Click</a></h3>
+            <h3 class="sub-menu"><span><a href="https://chat.whatsapp.com/DOaKmPa64hNIhR5O77k1Qp">Join Group <ion-icon name="logo-whatsapp" ></ion-icon></a></span><span>Referral code: <input type="text" id="referral_code" onclick="copyToClipboard()" class="referral_code"  value="{{referral_code.code}}" readonly></span></h3>
             <div class="info-conatiner">
                 <div class="menu-container">
                     <div class="menu-item active-menu-item" id="team_info-menu" onclick="changeSection(this,'team_info')">Team</div>
@@ -63,6 +65,10 @@
                         <tr>
                             <th>Member 3</th>
                             <td>{{ team.member3_name }}</td>
+                        </tr>
+                        <tr>
+                            <th>Referal Score <span class="info-icon" data-tippy-content="Get Rs50 off on registration for 5 referrals and Rs100 off for 10 referrals">i</span></th>
+                            <td>{{ referral_code.referral_count }}</td>
                         </tr>
 
                         </tbody>
@@ -115,7 +121,10 @@
           </label>
     </div>
 </body>
+<script src="https://unpkg.com/@popperjs/core@2"></script>
+<script src="https://unpkg.com/tippy.js@6"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+<script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
 <script src="{% static 'js/jquery-3.7.1.min.js' %}"></script>
 <script src="{% static 'js/user.js' %}" defer></script>
 

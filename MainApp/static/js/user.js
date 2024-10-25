@@ -71,3 +71,23 @@ function getCookie(name) {
     window.location.href = '../';
     }
   }
+
+function changeSection(callingObject,section){
+    ele = document.getElementsByClassName('menu-item');
+    for (i=0;i<ele.length;i++){
+        ele[i].classList.remove('active-menu-item');
+    }
+    callingObject.classList.add('active-menu-item');
+
+    const rows = document.querySelectorAll('.table-section tr');
+
+    // Loop through the NodeList and do something with each <tr>
+
+    ele = document.getElementsByClassName('table-section');
+    for (i=0;i<ele.length;i++){
+        ele[i].style.display = 'none';
+    }
+    console.log(section,document.getElementById(section));
+    document.getElementById(section).style.display = 'block';
+
+}

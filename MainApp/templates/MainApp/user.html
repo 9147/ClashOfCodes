@@ -7,6 +7,7 @@
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/user.css' %}">
     <link rel="shortcut icon" href="{% static 'images/logo.png' %}" type="image/svg+xml">
+    
 </head>
 <body style="background-image: url(/static/images/hero-bg.jpg);">
     <div class="nav">
@@ -32,8 +33,14 @@
         {%else %}
             <h3>Please join the whatsapp group to stay in touch! <a href="https://chat.whatsapp.com/DOaKmPa64hNIhR5O77k1Qp">Click</a></h3>
             <div class="info-conatiner">
+                <div class="menu-container">
+                    <div class="menu-item active-menu-item" id="team_info-menu" onclick="changeSection(this,'team_info')">Team</div>
+                    <div class="menu-item" id="problem_info-menu" onclick="changeSection(this,'problem_info')">Submission</div>
+                    <div class="menu-item" id="submission_status-menu" onclick="changeSection(this,'submission_status')">Status</div>
+                </div>
                 <div class="team-details">
-                    <table border="1">
+                    <table >
+                        <tbody class="team-info table-section active-tsection" id="team_info" >
                         <tr>
                             <th>Team Name</th>
                             <td>{{ team.name }}</td>
@@ -55,7 +62,8 @@
                             <td>{{ team.member3_name }}</td>
                         </tr>
 
-
+                        </tbody>
+                        <tbody class="problem-info table-section" id="problem_info">
                         <tr>
                             <th>Problem Statement</th>
                             <td>{{ problem.title }}</td>
@@ -80,7 +88,11 @@
                             <th>Submission Status</th>
                             <td>{{ problem.status }}</td>
                         </tr>
-
+                        </tbody>
+                        <tbody class="submission-status table-section" id="submission_status">
+                        <tr>
+                            <th>Nothing here yet!!</th>
+                        </tr>
                     </table>
 
                 </div>

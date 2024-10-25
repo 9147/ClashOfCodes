@@ -20,12 +20,16 @@ html {
     /* prevent overscroll bounce*/
     overflow-y: hidden;
     -webkit-overflow-scrolling: touch;
+    /* font-family: var(--ff-oxanium); */
     /* iOS velocity scrolling */
   }
 *{
     box-sizing: border-box;
     margin:0px;
     padding:0px;
+    --ff-oxanium: 'Oxanium', cursive;
+    --ff-poppins: 'Poppins', sans-serif;
+    font-family: var(--ff-poppins);
 }
 
 .nav {

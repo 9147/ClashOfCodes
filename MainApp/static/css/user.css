@@ -158,10 +158,11 @@ span.setting-title {
 }
 table, th, td {
     border-collapse: collapse;
-    padding: 1rem;
 }
+
 th,td{
     border: hsl(42, 99%, 46%) solid 2px;
+    padding:1rem;
 }
 tr{
     width:100%;

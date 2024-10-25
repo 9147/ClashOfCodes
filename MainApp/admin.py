@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Team, UserToken, submissiontime, contact, Problem, ladingPage
+from .models import Team, UserToken, submissiontime, contact, Problem, ladingPage, ReferralCode
 
 # Register your models here.
 @admin.register(Team)
@@ -45,3 +45,10 @@ class landingPageAdmin(admin.ModelAdmin):
     sortable_by = ['user','is_set']
     search_fields = ['user','is_set']
     list_filter = ['user','is_set']
+
+@admin.register(ReferralCode)
+class ReferralCodeAdmin(admin.ModelAdmin):
+    list_display = ['code', 'user']
+    sortable_by = ['code', 'user']
+    search_fields = ['code', 'user']
+    list_filter = ['code', 'user']

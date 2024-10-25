@@ -20,7 +20,7 @@
         </div>
     </div>
     <div class="container" >
-        <h1 style="color:white">Welcome, {{ user.first_name }}</h1>
+        <h1 style="color:white">Welcome, {% if user.first_name|length > 8 %} {{ user.first_name|slice:":7" }}.. {% else %} {{ user.first_name }}{% endif %}</h1>
         <div class="container-info">
         {% if message %}
             <div class="message-container">

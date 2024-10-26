@@ -96,6 +96,7 @@ class Problem(models.Model):
         ('Accepted', 'Accepted'),
     ]
     status = models.CharField(max_length=10, choices=status_choice, default='Pending')
+    Referral = models.ForeignKey('ReferralCode', on_delete=models.CASCADE, blank=True, null=True)
 
     def __str__(self):
         return self.title

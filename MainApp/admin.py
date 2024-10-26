@@ -4,10 +4,10 @@ from .models import Team, UserToken, submissiontime, contact, Problem, ladingPag
 # Register your models here.
 @admin.register(Team)
 class TeamAdmin(admin.ModelAdmin):
-    list_display = ['name', 'leader', 'leader_contact', 'member1_name', 'member2_name', 'member3_name']
-    sortable_by = ['name', 'leader', 'leader_contact', 'member1_name', 'member2_name', 'member3_name']
-    search_fields = ['name', 'leader', 'leader_contact', 'member1_name', 'member2_name', 'member3_name']
-    list_filter = ['name', 'leader', 'leader_contact', 'member1_name', 'member2_name', 'member3_name']
+    list_display = ['name', 'leader', 'leader_contact', 'member1_name', 'member2_name', 'member3_name','city','college','state','country']
+    sortable_by = ['name', 'leader', 'leader_contact', 'member1_name', 'member2_name', 'member3_name','city','college','state','country']
+    search_fields = ['name', 'leader', 'leader_contact', 'member1_name', 'member2_name', 'member3_name','city','college','state','country']
+    list_filter = ['name', 'leader', 'leader_contact', 'member1_name', 'member2_name', 'member3_name','city','college','state','country']
 
 @admin.register(UserToken)
 class UserTokenAdmin(admin.ModelAdmin):

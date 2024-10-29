@@ -376,8 +376,16 @@ window.onload = function() {
   adjustMembers(); // Call this to set the initial visibility and state
 };
 
+function OpenSubmission(){
+  var ele = document.getElementById('track');
+  var url = '../submission/'+ele.value;
+  window.location=url;
+}
 
-document.getElementById('Idea-ppt').addEventListener('change', function() {
+var ele = document.getElementById('Idea-ppt');
+if (ele) {
+
+ele.addEventListener('change', function() {
   var file = this.files[0];  // Get the uploaded file
   console.log("File Size:", file.size);
   
@@ -403,6 +411,7 @@ document.getElementById('Idea-ppt').addEventListener('change', function() {
       this.value = '';  // Clear the file input
   }
 });
+}
 
 
 tippy('.info-icon', {
@@ -411,3 +420,20 @@ tippy('.info-icon', {
   theme: 'light', // Custom theme
   duration: [200, 150], // Duration for show/hide
 });
+
+function rotateRulebook(arg){
+  console.log(arg);
+  var ele=document.getElementById(arg);
+  var eles= document.getElementsByClassName('menu-rulebook');
+  for(var i=0;i<eles.length;i++){
+    eles[i].classList.remove('skewBg');
+  }
+  ele.classList.add('skewBg');
+
+  var rulebook = document.getElementById(arg+'_txt');
+  var rulebooks = document.getElementsByClassName('rulebook_txt');
+  for(var i=0;i<rulebooks.length;i++){
+    rulebooks[i].style.display = 'none';
+  }
+  rulebook.style.display = 'block';
+}

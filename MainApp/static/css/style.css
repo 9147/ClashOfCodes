@@ -2013,3 +2013,34 @@ option{
   
   /* padding: .1rem; */
 }
+
+
+select#track {
+  font-size: var(--fs-4);
+  text-align: center;
+  background: transparent;
+  color: white;
+  padding: 1rem;
+}
+
+span.menu-bar {
+  display: flex;
+  color: white;
+  flex-direction: row;
+  justify-content: space-around;
+  padding: 1.3rem;
+}
+
+span.menu-rulebook {
+  color: white;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  justify-content: center;
+  align-items: center;
+  min-width: 100px;
+  min-height: 60px;
+  cursor: pointer;
+  cursor: url(../images/cursor-select.png), pointer !important;
+}

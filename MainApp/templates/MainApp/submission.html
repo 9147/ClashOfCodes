@@ -19,7 +19,7 @@
         <div class="container-submission">
   
          <h1>Submission</h1>
-         <form method="post" enctype="multipart/form-data">
+         <form method="post" enctype="multipart/form-data" action="../submission/{{track}}">
             {% csrf_token %}
             <table>
                 <tr>
@@ -44,6 +44,7 @@
             <div class="form-group">
               <td><label for="Domain">Domain</label></td>
               <td><select name="domain" id="domain" required>
+                {% if track == 'Digital' %}
                 <option value="web">Web</option>
                 <option value="mobile">Mobile</option>
                 <option value="ai">AI</option>
@@ -53,12 +54,17 @@
                 <option value="cybersecurity">Cybersecurity</option>
                 <option value="robotics">Robotics</option>
                 <option value="other">Other</option>
+                {% elif track == '3D' %}
+                <option value="agriculture">Agriculture</option>
+                <option value="healthcare">Healthcare</option>
+                <option value="education">Education</option>
+                {% endif %}
               </select></td>
             </div>
             </tr>
             <tr>
             
-              <td><label for="Idea-ppt">Idea ppt</label><span class="info-icon" data-tippy-content="Upload the document in pdf format only and file size must be less than 2GB. Follow the PPT template provided.">i</span> :<a style="text-decoration:underline;color:var(--marigold)" href="../media/submission_template.pptx">Download Template</a></td>
+              <td><label for="Idea-ppt">Idea ppt</label><span class="info-icon" data-tippy-content="Upload the document in pdf format only and file size must be less than 2GB. Follow the PPT template provided.">i</span> :<a style="text-decoration:underline;color:var(--marigold)" href={% if track == 'Digital' %}"../media/submission_template.pptx" {% elif track == '3D' %}"../media/submission_template.pptx" {% endif %} >Download Template</a></td>
               <td><input type="file" class="form-control-file" id="Idea-ppt" name="Idea-ppt" required accept=".pdf"></td>
               </tr>
               <tr>

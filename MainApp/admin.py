@@ -34,10 +34,10 @@ class contactAdmin(admin.ModelAdmin):
 
 @admin.register(Problem)
 class ProblemAdmin(admin.ModelAdmin):
-    list_display = ['title', 'team', 'description', 'solution','solution_pdf','domain']
-    sortable_by = ['title', 'team', 'description', 'solution','solution_pdf','domain']
-    search_fields = ['title', 'team', 'description', 'solution','solution_pdf','domain']
-    list_filter = ['title', 'team', 'description', 'solution','solution_pdf','domain']
+    list_display = ['title', 'team', 'description', 'solution','solution_pdf','domain','track']
+    sortable_by = ['title', 'team', 'description', 'solution','solution_pdf','domain','track']
+    search_fields = ['title', 'team', 'description', 'solution','solution_pdf','domain','track']
+    list_filter = ['title', 'team', 'description', 'solution','solution_pdf','domain','track']
 
 @admin.register(ladingPage)
 class landingPageAdmin(admin.ModelAdmin):

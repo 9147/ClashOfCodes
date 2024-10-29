@@ -27,7 +27,7 @@
             Open Source Innovation
           </p>
 
-          <button onclick= {% if user.is_authenticated %} {% if team %} {% if problem %} "window.location='../user'" {% else %} "window.location='./submission'" {% endif %} {% else %}"document.getElementById('popup_continue_registration').style.display='block'" {% endif %} {% else %} "register()" {% endif %} class="btn skewBg">{% if user.is_authenticated %} {% if team %}{% if problem %} User Portal {% else %} Make Submission {% endif %} {% else %} Continue Registration {% endif %} {% else %} Register Now! {% endif %}</button>
+          <button onclick= {% if user.is_authenticated %} {% if team %} {% if problem %} "window.location='../user'" {% else %} "document.getElementById('popup_submission').style.display='block';" {% endif %} {% else %}"document.getElementById('popup_continue_registration').style.display='block'" {% endif %} {% else %} "register()" {% endif %} class="btn skewBg">{% if user.is_authenticated %} {% if team %}{% if problem %} User Portal {% else %} Make Submission {% endif %} {% else %} Continue Registration {% endif %} {% else %} Register Now! {% endif %}</button>
 
         </div>
 
@@ -517,9 +517,28 @@
   </div>
 </div>
 
-<script>
-  
 
-</script>
+
+<div class="popup-submission popup-window" id="popup_submission" style="display: none;">
+  <div class="popup-body">
+    <div class="popup-content">
+      <h2 class="popup-title">Select tract!!</h2>
+      <form class="popup-content" >
+        {% csrf_token %}
+        <div class="input-wrapper">
+          <select name="track" id="track">
+            <option value="Digital">Digital</option>
+            <option value="3D">3D Printing</option>
+          </select>
+        </div>
+        <span class="btns">
+          <button type="button" class="btn popup-btn newsletter-btn  skewBg" onclick="document.getElementById('popup_submission').style.display='none';">Cancel</button>
+          <button type="button" class="btn popup-btn newsletter-btn  skewBg" onclick="OpenSubmission()">Next</button>
+        </span> 
+      </form>
+    </div>
+  </div>`
+</div>
+
 
 {% endblock content %}

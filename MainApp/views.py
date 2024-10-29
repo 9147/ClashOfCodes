@@ -291,7 +291,7 @@ def contactview(request):
     return render(request,'MainApp/activation.html',{'message':"message couldnt not be send!!"})
 
 
-def submission(request):
+def submission(request,track):
     if request.method == 'POST':
         problem_title = request.POST.get('problem-title')
         problem_statement = request.POST.get('problem-description')
@@ -299,6 +299,7 @@ def submission(request):
         domain = request.POST.get('domain')
         solution_file = request.FILES.get('Idea-ppt')  # Ensure to fetch the file from FILES, not POST
         referral_code = request.POST.get('referral_code').strip()
+
         # check if some user have this referal code and if yes than increase the count
         try:
             user = ReferralCode.objects.get(code=referral_code)
@@ -321,13 +322,14 @@ def submission(request):
             solution=solution_description,
             team=team,
             domain=domain,
-            solution_pdf=solution_file  # Assign the file to the model's FileField
+            solution_pdf=solution_file,  # Assign the file to the model's FileField
+            track = track
         )
         problem.save()
 
         return render(request, 'MainApp/activation.html', {'message': 'Problem statement submitted successfully!'})
     
-    return render(request, 'MainApp/submission.html')
+    return render(request, 'MainApp/submission.html',{'track':track})
 
 def logout_user(request):
     logout(request)

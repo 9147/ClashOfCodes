@@ -89,6 +89,12 @@ class Problem(models.Model):
     description = models.TextField()
     solution = models.TextField()
     domain = models.CharField(max_length=100,default='web')
+    
+    tracks_choice = [
+        ('Digital', 'Digital'),
+        ('3D','3D'),
+    ]
+    track = models.CharField(max_length=10, choices=tracks_choice, default='Digital')
     # solution pdf and ppt - use custom upload_to function
     solution_pdf = models.FileField(upload_to=UploadToPathAndRename('solutions/'), blank=True, null=True)
     status_choice = [

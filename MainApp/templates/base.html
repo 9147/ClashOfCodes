@@ -194,8 +194,13 @@
       </button>
       <div class="popup-content">
         <h2 class="popup-title">Rule Book</h2>
+        <span class="menu-bar">
+          <span class="menu-rulebook skewBg" id="digital" onclick="rotateRulebook('digital')">Digital</span>
+          <span class="menu-rulebook " id="3d" onclick="rotateRulebook('3d')">3D</span>
+        </span>
         <span class="rule-container">
         <span class="rule-body">
+          <span class="rulebook_txt" id="digital_txt" style="display: block;">
           <p><strong>Team Formation:</strong> Participants can form teams of 3 or 4 members. Each team must consist of members from a single college.</p>
       <p><strong>Project Scope:</strong> Teams can work on any project within the given theme (Open Source Innovation) and domain(select from the options avaliable). The scope can be limited to a specific technology or platform based on the event's guidelines.</p>
       <p><strong>Collaboration:</strong> Teams are encouraged to collaborate and seek help from mentors or organizers, but cross-team collaboration is not allowed during the competition.</p>
@@ -211,8 +216,28 @@
       <p><strong>Organizer's Decision:</strong> The organizer's decision is final.</p>
       <p><strong>Accommodation:</strong> Accommodation for outsiders will be provided by the organizers.</p>
       <!-- mention the submission ppt template -->
-      <p><strong>Submission:</strong> The submission should be in the form of a PDF document, following the template provided by the organizers. <a style="text-decoration:underline;color:#0070ff" href="media/submission_template.pptx">Click to Downlaod</a></p>
+      <p><strong>Submission:</strong> The submission should be in the form of a PDF document, following the template provided by the organizers. <a style="text-decoration:underline;color:#0070ff" href="../media/submission_template.pptx">Click to Downlaod</a></p>
       <p><strong>Contact:</strong> Any queries, feel free to mail us at <a href="mailto:contact@clashofcodes.in"></a>contact@clashofcodes.in</p>
+    </span>
+    <span class="rulebook_txt" id="3d_txt" style="display: none;">
+      <p><strong>Team Formation:</strong> Participants can form teams of 3 or 4 members. Each team must consist of members from a single college.</p>
+      <p><strong>Project Scope:</strong> Teams can work on any project within the given theme (Open Source Innovation) and domain(select from the options avaliable). The scope can be limited to a specific technology or platform based on the event's guidelines.</p>
+      <p><strong>Collaboration:</strong> Teams are encouraged to collaborate and seek help from mentors or organizers, but cross-team collaboration is not allowed during the competition.</p>
+      <p><strong>Intellectual Property:</strong> Participants retain full ownership of the intellectual property rights to their projects. However, organizers may request participants to share their project details for promotional or showcase purposes.</p>
+      <p><strong>Registration Fees:</strong> 600/- INR, charged only for shortlisted teams.</p>
+      <p><strong>Important Dates:</strong></p>
+      <ul>
+        <li>Last date of Registration: {{ registration }}</li>
+        <li>Last date of Idea Submission: {{ idea }}</li>
+        <li>Final showdown: 29th - 30th November 2024 at KLS GOGTE INSTITUTE OF TECHNOLOGY</li>
+      </ul>
+      <p><strong>Shortlisting:</strong> Top 40 teams will be shortlisted (waiting list and subsequent teams may be considered).</p>
+      <p><strong>Organizer's Decision:</strong> The organizer's decision is final.</p>
+      <p><strong>Accommodation:</strong> Accommodation for outsiders will be provided by the organizers.</p>
+      <!-- mention the submission ppt template -->
+      <p><strong>Submission:</strong> The submission should be in the form of a PDF document, following the template provided by the organizers. <a style="text-decoration:underline;color:#0070ff" href="../media/submission_template.pptx">Click to Downlaod</a></p>
+      <p><strong>Contact:</strong> Any queries, feel free to mail us at <a href="mailto:contact@clashofcodes.in"></a>contact@clashofcodes.in</p>
+    </span>
     </span>
   </span>
       </div>

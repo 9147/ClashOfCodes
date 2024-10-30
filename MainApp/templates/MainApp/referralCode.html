@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Referral Code</title>
+    {% load static %}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/tippy.js@6.3.1/dist/tippy.css">
+    <link rel="stylesheet" href="{% static 'css/user.css' %}">
+    <link rel="stylesheet" href="{% static 'css/referralCode.css' %}">
+    <link rel="shortcut icon" href="{% static 'images/logo.png' %}" type="image/svg+xml">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    
+</head>
+<body style="background-image: url(/static/images/hero-bg.jpg);">
+    <div class="nav">
+        <div class="menu menu-start">
+            <ion-icon name="play-back-sharp" onclick="window.location='../'" class="click" style="font-size: 4rem;font-weight: 900;color:white"></ion-icon>
+        </div>
+        <div class="menu menu-end">
+            
+        </div>
+    </div>
+    <div class="container" >
+        <div class="container-info">
+            
+            {% csrf_token %}
+                <div class="input-wapper">
+                    <input type="text" class="college" id="college" name="college" placeholder="College name.." required>
+                </div>
+                <div class="input-wapper">
+                    <select type="text" class="role" id="role" name="role" required>
+                        <option value="Student">Student</option>
+                        <option value="Faculty">Faculty</option>
+                        </select>
+                </div>
+                <div class="input-wapper">
+                    <button class="skewBg btn" onclick="SubmitData()" >Submit</button>
+                </div>
+    </div>
+    </div>
+    <div class="footer">
+        <span class="setting-title">
+            
+        </span>
+    
+    </div>
+</body>
+<script src="https://unpkg.com/@popperjs/core@2"></script>
+<script src="https://unpkg.com/tippy.js@6"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+<script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+<script src="{% static 'js/referralCode.js' %}" defer></script>
+<script src="{% static 'js/jquery-3.7.1.min.js' %}"></script>
+<!-- <script src="{% static 'js/user.js' %}" defer></script> -->
+
+<script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+<script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+</html>

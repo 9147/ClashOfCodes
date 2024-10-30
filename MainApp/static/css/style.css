@@ -1967,7 +1967,7 @@ span.details-container {
   flex-direction: row;
   align-items: stretch;
   justify-content: center;
-  max-height: 70vh;
+  height: 70vh;
 }
 
 div#swal2-content {

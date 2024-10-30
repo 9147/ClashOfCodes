@@ -33,7 +33,7 @@
                 {% endif %}
             </div>
         {%else %}
-            <h3 class="sub-menu"><span><a href="https://chat.whatsapp.com/DOaKmPa64hNIhR5O77k1Qp">Join Group <ion-icon name="logo-whatsapp" ></ion-icon></a></span><span>Referral code: <input type="text" id="referral_code" onclick="copyToClipboard()" class="referral_code"  value="{{referral_code.code}}" readonly></span></h3>
+            <h3 class="sub-menu"><span><a href="https://chat.whatsapp.com/DOaKmPa64hNIhR5O77k1Qp">Join Group <ion-icon name="logo-whatsapp" ></ion-icon></a></span></h3>
             <div class="info-conatiner">
                 <div class="menu-container">
                     <div class="menu-item active-menu-item" id="team_info-menu" onclick="changeSection(this,'team_info')">Team</div>
@@ -65,10 +65,6 @@
                         <tr>
                             <th>Member 3</th>
                             <td>{{ team.member3_name }}</td>
-                        </tr>
-                        <tr>
-                            <th>Referral Score <span class="info-icon" data-tippy-content="Get Rs50 off on registration for 5 referrals and Rs100 off for 10 referrals">i</span></th>
-                            <td>{{ referral_code.referral_count }}</td>
                         </tr>
 
                         </tbody>

@@ -48,7 +48,7 @@ class landingPageAdmin(admin.ModelAdmin):
 
 @admin.register(ReferralCode)
 class ReferralCodeAdmin(admin.ModelAdmin):
-    list_display = ['code', 'user','referral_count']
-    sortable_by = ['code', 'user','referral_count']
-    search_fields = ['code', 'user','referral_count']
-    list_filter = ['code', 'user','referral_count']
+    list_display = ['code', 'college']
+    sortable_by = ['code', 'college']
+    search_fields = ['code', 'college']
+    list_filter = ['code', 'college']

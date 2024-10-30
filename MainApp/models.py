@@ -6,6 +6,7 @@ from django.utils.crypto import get_random_string
 import os
 from django.utils.deconstruct import deconstructible
 import random
+from django.core.exceptions import ValidationError
 import string
 from django.db.models.signals import post_save
 from django.dispatch import receiver
@@ -102,7 +103,7 @@ class Problem(models.Model):
         ('Accepted', 'Accepted'),
     ]
     status = models.CharField(max_length=10, choices=status_choice, default='Pending')
-    Referral = models.ForeignKey('ReferralCode', on_delete=models.CASCADE, blank=True, null=True)
+    Referral = models.ForeignKey('ReferralCode', on_delete=models.SET_NULL, blank=True, null=True)
 
     def __str__(self):
         return self.title
@@ -117,8 +118,13 @@ class ladingPage(models.Model):
 
 class ReferralCode(models.Model):
     code = models.CharField(max_length=6, primary_key=True)
-    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='referral_code')
-    referral_count = models.PositiveIntegerField(default=0)
+    Roles_choice = [
+        ('Student', 'Student'),
+        ('Faculty','Faculty'),
+    ]
+    role = models.CharField(max_length=10, choices=Roles_choice, default='Student')
+    college = models.CharField(max_length=100, blank=True,default='KLS GIT')
+    users = models.ManyToManyField(User, related_name='referral_groups')
 
     def __str__(self):
         return self.code
@@ -130,10 +136,19 @@ class ReferralCode(models.Model):
             code = ''.join(random.choices(string.ascii_uppercase + string.digits, k=6))
             if not ReferralCode.objects.filter(code=code).exists():
                 return code
+    
+    def save(self, *args, **kwargs):
+        # Check if there are already 6 users in this group before saving
+        if self.users.count() > 6:
+            raise ValidationError("A ReferralGroup cannot have more than 6 users.")
+        super().save(*args, **kwargs)
 
-# Signal to create referral code for new users automatically
-@receiver(post_save, sender=User)
-def create_referral_code(sender, instance, created, **kwargs):
-    if created:
-        ReferralCode.objects.create(user=instance, code=ReferralCode.generate_code())
+    def add_user(self, user):
+        # Add the user to this ReferralGroup
+        if self.users.count() >= 6:
+            raise ValidationError("A ReferralGroup cannot have more than 6 users.")
+        self.users.add(user)
+        self.save()
+
+    
 

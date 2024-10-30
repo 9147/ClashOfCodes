@@ -42,16 +42,9 @@ def register_user(request):
     if not email or email.strip() == '':
         return JsonResponse({'error': 'Email is required'}, status=404)
     
-    try:
-        user = User.objects.get(username=email)
-        user.is_active = False  # Deactivate the account
-        user.save()
-        created = False
-    except User.DoesNotExist:
-        user = User.objects.create(username=email, email=email, first_name=name)
-        user.is_active = False  # Deactivate the account
-        user.save()
-        created = True
+    user,created = User.objects.get_or_create(username=email,email=email,first_name=name)
+    user.is_active = False
+    user.save()
     
     # Generate a token for the user or regenerate if one exists
     user_token, _ = UserToken.objects.get_or_create(user=user)
@@ -99,7 +92,7 @@ def register_user(request):
     email_message.send(fail_silently=False)
 
     if created:
-        return JsonResponse({'message': 'Verification link sent to your email'}, status=201)
+        return JsonResponse({'message': 'Verification link sent to your email'}, status=200)
     else:
         return JsonResponse({'message': 'Your account was deactivated and a new activation link was sent to your email'}, status=200)
     
@@ -290,6 +283,20 @@ def contactview(request):
         return render(request,'MainApp/activation.html', {'message': 'Your message has been sent successfully!'})
     return render(request,'MainApp/activation.html',{'message':"message couldnt not be send!!"})
 
+def referralValidation(request):
+    if request.method == 'POST':
+        referral_code = request.POST.get('referral_code')
+        try:
+            code = ReferralCode.objects.get(code=referral_code)
+            return JsonResponse({'message': 'Referral code is valid!'}, status=200)
+        except ReferralCode.DoesNotExist:
+            return JsonResponse({'message': 'Referral code is invalid!'}, status=404)
+        # check if users count is less than 6
+        if code.users.count()<6:
+            return JsonResponse({'message': 'Referral code is valid!'}, status=200)
+        else:
+            return JsonResponse({'message': 'The code is already used by 6 teams!'}, status=404)
+    return JsonResponse({'message': 'Referral code could not be validated!'}, status=404)
 
 def submission(request,track):
     if request.method == 'POST':
@@ -300,17 +307,26 @@ def submission(request,track):
         solution_file = request.FILES.get('Idea-ppt')  # Ensure to fetch the file from FILES, not POST
         referral_code = request.POST.get('referral_code').strip()
 
-        # check if some user have this referal code and if yes than increase the count
-        try:
-            user = ReferralCode.objects.get(code=referral_code)
-            user.referral_count += 1
-            user.save()
-        except ReferralCode.DoesNotExist:
-            pass
+        code = None
+        # Check if the referral code
+        if referral_code:
+            try:
+                code = ReferralCode.objects.get(code=referral_code)
+                if code.users.count()>6:
+                    return render(request, 'MainApp/activation.html', {'message': 'The code is already used by 6 teams!'})
+                code.users.add(request.user)
+                code.save()
+            except ReferralCode.DoesNotExist:
+                return render(request, 'MainApp/activation.html', {'message': 'Referral code is invalid!'})
+
+            # check if users count is less than 6
+            
+
         try:
             team = Team.objects.get(leader=request.user)
         except Team.DoesNotExist:
             team = None
+
 
         if not team:
             return render(request, 'MainApp/activation.html', {'message': 'Team not found!'})
@@ -323,7 +339,8 @@ def submission(request,track):
             team=team,
             domain=domain,
             solution_pdf=solution_file,  # Assign the file to the model's FileField
-            track = track
+            track = track,
+            Referral=code
         )
         problem.save()
 
@@ -344,8 +361,7 @@ def user_view(request):
     # check if user has team
     print(landing_page.is_set)
     # get referral code
-    referral_code = ReferralCode.objects.get(user=request.user)
-    context = {'landing_page': landing_page.is_set,'referral_code': referral_code}
+    context = {'landing_page': landing_page.is_set}
     try:
         team = Team.objects.get(leader=request.user)
         context['team'] =  team
@@ -374,3 +390,16 @@ def update_landing_page(request):
         print(landing_page.is_set)
         return JsonResponse({'message': 'Landing page updated successfully!'}, status=200)
     return JsonResponse({'message': 'Landing page could not be updated!'}, status=404)
+
+
+def generateReferralCode(request):
+    if request.method == 'POST':
+        college = request.POST.get('college')
+        role = request.POST.get('role')
+        print("value: ",college,role)
+        code = ReferralCode.objects.create(code=ReferralCode.generate_code(), college=college,role=role)
+        code.save()
+        return JsonResponse({'message': 'Referral code generated successfully!','referral_code':code.code}, status=200)
+    else:
+        return render(request,'MainApp/referralCode.html')
+    

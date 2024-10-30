@@ -15,4 +15,6 @@ urlpatterns = [
     path('logout/', views.logout_user, name='logout'),
     path('user/', views.user_view, name='user'),
     path('update_landing_page/', views.update_landing_page, name='update_landing_page'),
+    path('generateReferral/', views.generateReferralCode, name='generateReferral'),
+    path('referralvalidation/', views.referralValidation, name='referralValidation'),
 ]

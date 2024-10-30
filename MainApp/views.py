@@ -373,6 +373,9 @@ def user_view(request):
     try:
         problem = Problem.objects.get(team=team)
         context['problem'] = problem
+        if problem.Referral:
+            context['referral'] = problem.Referral.code
+            context['referral_diff'] = 6 - problem.Referral.users.count()
     except Problem.DoesNotExist:
         context['problem'] = None
         context['message'] = "2"

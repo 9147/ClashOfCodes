@@ -443,3 +443,23 @@ function closeNotification() {
   const notificationBar = document.getElementById("notification-bar");
   notificationBar.style.display = "none";
 }
+
+// Function to display the SweetAlert popup about the hackathon date change
+function showHackathonDateChangeNotification() {
+  Swal.fire({
+      title: 'Important Update!',
+      text: 'Please note that the hackathon dates have been changed. The hackathon is postponed to the 13th of December 2021. Additionally, we have added a new 3D printing track along with the digital track! Please check the website for more details.',
+      icon: 'warning',
+      confirmButtonText: 'Understood',
+      confirmButtonColor: getComputedStyle(document.documentElement).getPropertyValue('--marigold').trim() 
+  }).then(() => {
+      // Set a flag in localStorage to prevent future popups
+      localStorage.setItem('hackathonDateChangeNotified', 'true');
+  });
+}
+// Show the notification on page load if it hasn't been shown before
+window.onload = function() {
+    if (!localStorage.getItem('hackathonDateChangeNotified')) {
+        showHackathonDateChangeNotification();
+    }
+};

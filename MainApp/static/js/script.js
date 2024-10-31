@@ -448,7 +448,7 @@ function closeNotification() {
 function showHackathonDateChangeNotification() {
   Swal.fire({
       title: 'Important Update!',
-      text: 'Please note that the hackathon dates have been changed. The hackathon is postponed to the 13th of December 2021. Additionally, we have added a new 3D printing track along with the digital track! Please check the website for more details.',
+      text: 'Please note that the hackathon dates have been changed. The hackathon is postponed to the 13th of December 2024. Additionally, we have added a new 3D printing track along with the digital track! Please check the website for more details.',
       icon: 'warning',
       confirmButtonText: 'Understood',
       confirmButtonColor: getComputedStyle(document.documentElement).getPropertyValue('--marigold').trim() 

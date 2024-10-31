@@ -68,7 +68,7 @@
                         </tr>
                         <tr>
                             <th>Referral score</th>
-                            <td>{% if not referral_diff == 0 %} You still need {{ referral_diff }} {% else %} Your team is eligible for Rs.100 discount {% endif %}</td>
+                            <td>{% if not referral_diff == 0 %} You still need {{ referral_diff }} {% if referral_diff == 1 %} team {% else %} teams {% endif %} {% else %} Your team is eligible for Rs.100 discount {% endif %}</td>
                         </tr>
 
                         </tbody>

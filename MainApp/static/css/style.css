@@ -142,7 +142,7 @@ button {
 
 input { width: 100%; }
 
-button { cursor: pointer; }
+button { cursor: url(../images/cursor-select.png), pointer !important; }
 
 ion-icon { pointer-events: none; }
 
@@ -2043,4 +2043,44 @@ span.menu-rulebook {
   min-height: 60px;
   cursor: pointer;
   cursor: url(../images/cursor-select.png), pointer !important;
+}
+
+
+/* notification bar */
+
+.notification-bar {
+  /* position: fixed; */
+  top: 0;
+  width: 100%;
+  background-color: #ff980078;
+  color: #ffffff;
+  padding: 1px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  /* height: 4rem; */
+  z-index: 1000;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+/* Style for the close button */
+.close-btn {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 20px;
+  cursor: url(../images/cursor-select.png), pointer !important;
+}
+
+.learn-more-notification{
+  text-decoration: underline;
+  cursor: url(../images/cursor-select.png), pointer !important;
+  display: inline;
+}
+
+.notification-content {
+  flex-grow: 2;
+  display: flex;
+  gap: 2rem;
+  justify-content: center;
 }

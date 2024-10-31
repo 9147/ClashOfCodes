@@ -406,3 +406,5 @@ def generateReferralCode(request):
     else:
         return render(request,'MainApp/referralCode.html')
     
+def discount(request):
+    return render(request,'MainApp/discount.html')

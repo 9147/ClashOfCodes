@@ -2,7 +2,7 @@ function KnowMore(){
     Swal.fire({
         title: 'Referral Code!!',
         html: `
-            <p>Register with six teams from the same college and enjoy a reduced fee of ₹500 per team (instead of ₹600).</p>
+            <p>Register with six teams from the same college and enjoy a reduced fee of ₹500 per team (instead of ₹600). <a class="know-more" href="../discount" >Read more</a> OR</p>
             <a class="know-more" href="../generateReferral/" target="_blank" class="swal2-referral-link">Generate a Referral Code Now</a>
             Or Enter the referral code if you already have one!!
         `,

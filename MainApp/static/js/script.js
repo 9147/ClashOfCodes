@@ -437,3 +437,9 @@ function rotateRulebook(arg){
   }
   rulebook.style.display = 'block';
 }
+
+
+function closeNotification() {
+  const notificationBar = document.getElementById("notification-bar");
+  notificationBar.style.display = "none";
+}

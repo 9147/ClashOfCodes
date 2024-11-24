@@ -22,6 +22,8 @@ myenv
 venv.bak/
 pip-log.txt
 
+*.xlsx
+
 # Ignore all files in migrations directories
 **/migrations/*
 

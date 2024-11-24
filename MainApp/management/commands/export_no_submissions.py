@@ -18,7 +18,7 @@ class Command(BaseCommand):
 
         # Add headers
         headers = [
-            "Team ID", "Team Name", "Leader Name", "Leader Contact", 
+            "Team ID", "Team Name", "Leader Name","Leader Email", "Leader Contact", 
             "Member 1", "Member 2", "Member 3", "City", "College", "State", "Country"
         ]
         sheet.append(headers)
@@ -26,7 +26,7 @@ class Command(BaseCommand):
         # Populate data
         for team in no_submission_teams:
             sheet.append([
-                team.id, team.name, team.leader.username, team.leader_contact,
+                team.id, team.name, team.leader.first_name,team.leader.username, team.leader_contact,
                 team.member1_name, team.member2_name, team.member3_name,
                 team.city, team.college, team.state, team.country
             ])

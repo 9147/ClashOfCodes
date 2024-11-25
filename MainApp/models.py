@@ -32,7 +32,7 @@ class UserToken(models.Model):
 class Team(models.Model):
     name = models.CharField(max_length=100,unique=True)
     leader = models.OneToOneField(User, on_delete=models.CASCADE, related_name='teams')
-    leader_contact = models.CharField(max_length=12)
+    leader_contact = models.CharField(max_length=20)
     member1_name = models.CharField(max_length=100)
     member2_name = models.CharField(max_length=100)
     member3_name = models.CharField(max_length=100)
@@ -47,7 +47,7 @@ class Team(models.Model):
     
     
 class submissiontime(models.Model):
-    tag = models.CharField(max_length=100,primary_key=True)
+    tag = models.CharField(max_length=300,primary_key=True)
     submission_time = models.DateTimeField()
     def __str__(self):
         return str(self.submission_time)

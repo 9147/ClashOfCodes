@@ -30,7 +30,7 @@ class UserToken(models.Model):
 
 
 class Team(models.Model):
-    name = models.CharField(max_length=100,unique=True)
+    name = models.CharField(max_length=300,unique=True)
     leader = models.OneToOneField(User, on_delete=models.CASCADE, related_name='teams')
     leader_contact = models.CharField(max_length=20)
     member1_name = models.CharField(max_length=100)

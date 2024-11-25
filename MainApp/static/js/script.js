@@ -48,7 +48,7 @@ getFormClosingTime().then(function(countDownDate) {
   // If the count down is over, write some text 
   if (distance < 0) {
     clearInterval(x);
-    document.getElementById("demo").innerHTML = "EXPIRED";
+    document.getElementById("counter_container").innerHTML = "Registration has <span class=\"span skewBg\" id=\"counter\">CLosed</span>";
   }
 }, 1000);
 

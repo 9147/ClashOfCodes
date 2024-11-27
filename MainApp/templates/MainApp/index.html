@@ -27,7 +27,7 @@
             Open Source Innovation
           </p>
 
-          <button onclick= {% if user.is_authenticated %} {% if team %} {% if problem %} "window.location='../user'" {% else %} "document.getElementById('popup_submission').style.display='block';" {% endif %} {% else %}"document.getElementById('popup_continue_registration').style.display='block'" {% endif %} {% else %} "register()" {% endif %} class="btn skewBg">{% if user.is_authenticated %} {% if team %}{% if problem %} User Portal {% else %} Make Submission {% endif %} {% else %} Continue Registration {% endif %} {% else %} Register Now! {% endif %}</button>
+          <button onclick= {% if user.is_authenticated and team and problem  %} "window.location='../user'" {% else %} "" {% endif %} class="btn skewBg">{% if user.is_authenticated and team and problem %}  User Portal {% else %}  Register Closed! {% endif %}</button>
 
         </div>
 
@@ -407,7 +407,7 @@
           <h5 class="input-wrapper">You will be redirected to the login page!</h5>
         <span class="btns">
         <button type="submit" class="btn popup-btn newsletter-btn  skewBg" onclick="LoginUser()">YES</button>
-        <button type="submit" class="btn popup-btn newsletter-btn  skewBg" onclick="CreateAccount()">NO</button>
+        <button type="submit" class="btn popup-btn newsletter-btn  skewBg" onclick="document.getElementById('popup_window').display='none'">NO</button>
       </span> 
           </div>
           

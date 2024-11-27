@@ -34,7 +34,8 @@ class Command(BaseCommand):
         # Populate data
         for problem in submitted_problems:
             team = problem.team
-            solution_url = f"{settings.MEDIA_URL}{problem.solution_pdf}" if problem.solution_pdf else "No file uploaded"
+            solution_url = f"{settings.BASE_URL}{settings.MEDIA_URL}{problem.solution_pdf}" if problem.solution_pdf else "No file uploaded"
+
             
             # Add the data
             row_data = [

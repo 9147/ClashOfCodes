@@ -31,7 +31,7 @@ class Command(BaseCommand):
                 team.member1_name, team.member2_name, team.member3_name,
                 team.city, team.college, team.state, team.country,
                 problem.title, problem.description, problem.solution, problem.domain,
-                problem.track, problem.status, problem.solution_file
+                problem.track, problem.status, problem.solution_pdf
             ])
 
         # Generate the file name with timestamp

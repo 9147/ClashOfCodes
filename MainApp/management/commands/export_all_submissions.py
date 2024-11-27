@@ -19,7 +19,7 @@ class Command(BaseCommand):
         headers = [
             "Team ID", "Team Name", "Leader Name", "Leader Email", "Leader Contact",
             "Member 1", "Member 2", "Member 3", "City", "College", "State", "Country",
-            "Submission Title", "Description", "Solution", "Domain", "Track", "Status"
+            "Submission Title", "Description", "Solution", "Domain", "Track", "Status","Solution File"
         ]
         sheet.append(headers)
 
@@ -31,7 +31,7 @@ class Command(BaseCommand):
                 team.member1_name, team.member2_name, team.member3_name,
                 team.city, team.college, team.state, team.country,
                 problem.title, problem.description, problem.solution, problem.domain,
-                problem.track, problem.status
+                problem.track, problem.status, problem.solution_file
             ])
 
         # Generate the file name with timestamp

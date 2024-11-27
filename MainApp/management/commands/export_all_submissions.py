@@ -1,15 +1,20 @@
-from django.conf import settings
-import openpyxl
 from django.core.management.base import BaseCommand
 from MainApp.models import Team, Problem
+from django.conf import settings
+import openpyxl
 from datetime import datetime
-from openpyxl.styles import Font
-from openpyxl.utils import get_column_letter
 
 class Command(BaseCommand):
     help = 'Generate Excel file of teams that have made submissions along with submission details'
 
+    def add_arguments(self, parser):
+        # Add the base_url argument (this is the parameter that you will pass)
+        parser.add_argument('--base_url', type=str, help='Base URL for media files')
+
     def handle(self, *args, **kwargs):
+        # Get the base URL from the command arguments
+        base_url = kwargs.get('base_url', settings.BASE_URL)  # Use default if not provided
+
         # Get all teams that have made a submission
         submitted_problems = Problem.objects.select_related('team')
 
@@ -34,8 +39,7 @@ class Command(BaseCommand):
         # Populate data
         for problem in submitted_problems:
             team = problem.team
-            solution_url = f"{settings.BASE_URL}{settings.MEDIA_URL}{problem.solution_pdf}" if problem.solution_pdf else "No file uploaded"
-
+            solution_url = f"{base_url}{settings.MEDIA_URL}{problem.solution_pdf}" if problem.solution_pdf else "No file uploaded"
             
             # Add the data
             row_data = [

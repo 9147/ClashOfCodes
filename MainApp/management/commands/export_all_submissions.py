@@ -15,7 +15,7 @@ class Command(BaseCommand):
 
     def handle(self, *args, **kwargs):
         # Get the base URL from the command arguments
-        base_url = kwargs.get('base_url', settings.BASE_URL)  # Use default if not provided
+        base_url = kwargs.get('base_url',"http://127.0.0.1:8000/")  # Use default if not provided
 
         # Get all teams that have made a submission
         submitted_problems = Problem.objects.select_related('team')

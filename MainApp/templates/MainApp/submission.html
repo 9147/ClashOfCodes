@@ -69,7 +69,7 @@
               
               <tr>
                 <td><label for="referral_code"  >Referral code: </label><br><a class="know-more" onclick="KnowMore()">Know more</a></td>
-                <td><input type="text" class="form-control" id="referral_code" {% if problem %} readonly {% endif %} name="referral_code" placeholder="Referral code" value="{{problem.Referral}}"></td>
+                <td><input type="text" class="form-control" id="referral_code" {% if problem %} readonly {% endif %} name="referral_code" placeholder="Referral code" {% if problem.Referral %} value="{{problem.Referral}}" {% endif %}></td>
               </tr>
               
             <tr>

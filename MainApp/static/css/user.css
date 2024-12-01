@@ -299,3 +299,9 @@ a, button, .pointer-element {
     cursor: url(../images/cursor-select.png), pointer !important;
   }
   
+.payment-or-edit-button{
+    cursor: url(../images/cursor-select.png), pointer !important;
+    padding:.5rem;
+    border-radius: .2rem;
+    background-color: #dfa739;
+  }

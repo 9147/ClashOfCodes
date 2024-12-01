@@ -121,3 +121,13 @@ tippy('.info-icon', {
     theme: 'light', // Custom theme
     duration: [200, 150], // Duration for show/hide
 });
+
+
+function makePayment(){
+    // alert to tell that payment is not yet activated
+    Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Payment is not yet activated',
+      })
+}

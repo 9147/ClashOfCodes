@@ -11,11 +11,6 @@
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <main>
     <article>
-  
-      <!-- 
-        - #HERO
-      -->
-  
       <section class="section hero" id="home" aria-label="home"
         style="background-image: url({% static "images/hero-bg.jpg" %});">
         <div class="container-submission">
@@ -27,39 +22,43 @@
                 <tr>
             <div class="form-group">
               <td><label for="problem-title">Problem Title</label></td>
-              <td><input type="text" class="form-control" id="problem-title" name="problem-title" placeholder="Problem Title" required></td>
+              <td><input type="text" class="form-control" id="problem-title" name="problem-title" placeholder="Problem Title" value="{{problem.title}}" required></td>
             </div>
             </tr>
             <tr>
             <div class="form-group">
               <td><label for="problem-description">Problem description</label></td>
-              <td><textarea class="form-control" id="problem-description" name="problem-description" rows="3" placeholder="problem description" required></textarea></td>
+              <td><textarea class="form-control" id="problem-description" name="problem-description" rows="3" placeholder="problem description"  required>{{problem.description}}</textarea></td>
             </div>
             </tr>
             <tr>
             <div class="form-group">
               <td><label for="solution-description">Solution description</label></td>
-              <td><textarea class="form-control" id="solution-description" name="solution-description" rows="3" placeholder="Submission description" required></textarea></td>
+              <td><textarea class="form-control" id="solution-description" name="solution-description" rows="3" placeholder="Submission description" required>{{problem.solution}}</textarea></td>
             </div>
             </tr>
             <tr>
             <div class="form-group">
               <td><label for="Domain">Domain</label></td>
-              <td><select name="domain" id="domain" required>
-                {% if track == 'Digital' %}
-                <option value="web">Web</option>
-                <option value="mobile">Mobile</option>
-                <option value="ai">AI</option>
-                <option value="iot">IoT</option>
-                <option value="blockchain">Blockchain</option>
-                <option value="ar/vr">AR/VR</option>
-                <option value="cybersecurity">Cybersecurity</option>
-                <option value="robotics">Robotics</option>
-                <option value="other">Other</option>
-                {% elif track == '3D' %}
-                <option value="other">Other</option>
-                {% endif %}
-              </select></td>
+              <td>
+                <select name="domain" id="domain" required>
+                  {% if track == 'Digital' %}
+                    <option value="" {% if not problem.domain %}selected{% endif %}></option> <!-- Blank option if problem.domain is not set -->
+                    <option value="web" {% if problem.domain == "web" %}selected{% endif %}>Web</option>
+                    <option value="mobile" {% if problem.domain == "mobile" %}selected{% endif %}>Mobile</option>
+                    <option value="ai" {% if problem.domain == "ai" %}selected{% endif %}>AI</option>
+                    <option value="iot" {% if problem.domain == "iot" %}selected{% endif %}>IoT</option>
+                    <option value="blockchain" {% if problem.domain == "blockchain" %}selected{% endif %}>Blockchain</option>
+                    <option value="ar/vr" {% if problem.domain == "ar/vr" %}selected{% endif %}>AR/VR</option>
+                    <option value="cybersecurity" {% if problem.domain == "cybersecurity" %}selected{% endif %}>Cybersecurity</option>
+                    <option value="robotics" {% if problem.domain == "robotics" %}selected{% endif %}>Robotics</option>
+                    <option value="other" {% if problem.domain == "other" %}selected{% endif %}>Other</option>
+                  {% elif track == '3D' %}
+                    <option value="" {% if not problem.domain %}selected{% endif %}></option> <!-- Blank option if problem.domain is not set -->
+                    <option value="other" {% if problem.domain == "other" %}selected{% endif %}>Other</option>
+                  {% endif %}
+                </select>
+              </td>
             </div>
             </tr>
             <tr>
@@ -67,10 +66,12 @@
               <td><label for="Idea-ppt">Idea ppt</label><span class="info-icon" data-tippy-content="Upload the document in pdf format only and file size must be less than 2GB. Follow the PPT template provided.">i</span> :<a style="text-decoration:underline;color:var(--marigold)" href={% if track == 'Digital' %}"../media/submission_template_digital.pptx" {% elif track == '3D' %}"../media/submission_template_3D.pptx" {% endif %} >Download Template</a></td>
               <td><input type="file" class="form-control-file" id="Idea-ppt" name="Idea-ppt" required accept=".pdf"></td>
               </tr>
+              
               <tr>
-                <td><label for="referral_code" >Referral code: </label><br><a class="know-more" onclick="KnowMore()">Know more</a></td>
-                <td><input type="text" class="form-control" id="referral_code" name="referral_code" placeholder="Referral code"></td>
+                <td><label for="referral_code"  >Referral code: </label><br><a class="know-more" onclick="KnowMore()">Know more</a></td>
+                <td><input type="text" class="form-control" id="referral_code" {% if problem %} readonly {% endif %} name="referral_code" placeholder="Referral code" value="{{problem.Referral}}"></td>
               </tr>
+              
             <tr>
                 <td colspan="2" style="width:100%">
                     <span style="width:100%;display: flex;justify-content: center;"><button type="submit" class="btn newsletter-btn skewBg">submit</button></span></td>

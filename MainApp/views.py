@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 from django.shortcuts import render, HttpResponse, redirect
 from django.http import JsonResponse
 from django.utils.crypto import get_random_string
-from .serializers import userSerializer
+from .serializers import ProblemSerializer, userSerializer
 from .models import UserToken
 from django.contrib.auth import authenticate, login, logout
 from .models import Team, submissiontime, contact, submissiontime, Problem, ladingPage, ReferralCode
@@ -321,7 +321,7 @@ def submission(request,track):
 
             # check if users count is less than 6
             
-
+        
         try:
             team = Team.objects.get(leader=request.user)
         except Team.DoesNotExist:
@@ -331,6 +331,18 @@ def submission(request,track):
         if not team:
             return render(request, 'MainApp/activation.html', {'message': 'Team not found!'})
 
+        # check if the problem is already present and just edit it
+        try:
+            problem = Problem.objects.get(team=team)
+            problem.title = problem_title
+            problem.description = problem_statement
+            problem.solution = solution_description
+            problem.domain = domain
+            problem.solution_pdf = solution_file
+            problem.save()
+            return render(request, 'MainApp/activation.html', {'message': 'Problem statement updated successfully!'})
+        except Problem.DoesNotExist:
+            pass
         # Create the problem and attach the file
         problem = Problem.objects.create(
             title=problem_title,
@@ -346,7 +358,14 @@ def submission(request,track):
 
         return render(request, 'MainApp/activation.html', {'message': 'Problem statement submitted successfully!'})
     
-    return render(request, 'MainApp/submission.html',{'track':track})
+    # check if the user already has made submission
+    try:
+        team = Team.objects.get(leader=request.user)
+        problem = Problem.objects.get(team=team)
+        problem = ProblemSerializer(problem)
+        return render(request, 'MainApp/submission.html', {"problem": problem.data,"track":track})
+    except Problem.DoesNotExist:
+        return render(request, 'MainApp/submission.html',{'track':track})
 
 def logout_user(request):
     logout(request)

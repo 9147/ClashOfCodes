@@ -85,7 +85,7 @@ class UploadToPathAndRename(object):
 
 # Use this in your model field
 class Problem(models.Model):
-    title = models.CharField(max_length=300)
+    title = models.CharField(max_length=1000)
     team = models.OneToOneField(Team, on_delete=models.CASCADE)
     description = models.TextField()
     solution = models.TextField()

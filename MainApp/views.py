@@ -4,7 +4,7 @@ from django.shortcuts import render, HttpResponse, redirect
 from django.http import JsonResponse
 from django.utils.crypto import get_random_string
 from .serializers import ProblemSerializer, userSerializer
-from .models import UserToken
+from .models import Payment, UserToken
 from django.contrib.auth import authenticate, login, logout
 from .models import Team, submissiontime, contact, submissiontime, Problem, ladingPage, ReferralCode
 from django.template.loader import render_to_string
@@ -399,6 +399,14 @@ def user_view(request):
         context['problem'] = None
         context['message'] = "2"
         return render(request, 'MainApp/user.html', context)
+    # check if payment is completed
+    try:
+        payment = Payment.objects.get(user=request.user)
+        context['payment'] = payment
+    except Payment.DoesNotExist:
+        context['payment'] = None
+        context['message'] = "3"
+        return render(request, 'MainApp/user.html', context)
     return render(request, 'MainApp/user.html', context)
 
 def update_landing_page(request):
@@ -427,3 +435,25 @@ def generateReferralCode(request):
     
 def discount(request):
     return render(request,'MainApp/discount.html')
+
+
+def make_payment(request):
+    if request.method == 'POST':
+        user = request.user
+        user = User.objects.get(username=user.username)
+        utr_number = request.POST.get('transaction_id')
+        payment_screenshot = request.FILES.get('screenshot')
+        if not utr_number or not payment_screenshot:
+            return JsonResponse({'message': 'Please provide all the details!','status':"fail"}, status=404)
+        # if user has already made payment
+        try:
+            payment = user.payment
+            payment.utr_number = utr_number
+            payment.payment_screenshot = payment_screenshot
+            payment.save()
+            return JsonResponse({'message': 'Payment details updated successfully!','status':"success"}, status=200)
+        except:
+            payment = Payment.objects.create(user=user,utr_number=utr_number,payment_screenshot=payment_screenshot)
+            payment.save()
+            return JsonResponse({'message': 'Payment details added successfully!','status':"success"}, status=200)
+    return JsonResponse({'message': 'Payment details could not be added!','status':"fail"}, status=404)

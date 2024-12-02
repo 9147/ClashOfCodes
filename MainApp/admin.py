@@ -1,13 +1,13 @@
 from django.contrib import admin
-from .models import Team, UserToken, submissiontime, contact, Problem, ladingPage, ReferralCode
+from .models import Team, UserToken, submissiontime, contact, Problem, ladingPage, ReferralCode, Payment
 
 # Register your models here.
 @admin.register(Team)
 class TeamAdmin(admin.ModelAdmin):
     list_display = ['name', 'leader', 'leader_contact', 'member1_name', 'member2_name', 'member3_name','city','college','state','country']
-    sortable_by = ['name', 'leader', 'leader_contact', 'member1_name', 'member2_name', 'member3_name','city','college','state','country']
-    search_fields = ['name', 'leader', 'leader_contact', 'member1_name', 'member2_name', 'member3_name','city','college','state','country']
-    list_filter = ['name', 'leader', 'leader_contact', 'member1_name', 'member2_name', 'member3_name','city','college','state','country']
+    sortable_by = ['name', 'leader', 'leader_contact', 'member1_name', 'member2_name', 'member3_name','city','college']
+    search_fields = ['name', 'leader', 'leader_contact', 'member1_name', 'member2_name', 'member3_name','city','college']
+    list_filter = ['name', 'leader', 'leader_contact', 'member1_name', 'member2_name', 'member3_name','city','college']
 
 @admin.register(UserToken)
 class UserTokenAdmin(admin.ModelAdmin):
@@ -52,3 +52,7 @@ class ReferralCodeAdmin(admin.ModelAdmin):
     sortable_by = ['code', 'college']
     search_fields = ['code', 'college']
     list_filter = ['code', 'college']
+
+@admin.register(Payment)
+class PaymentAdmin(admin.ModelAdmin):
+    list_display = ['user','amount','utr_number','payment_screenshot','posted_date']

@@ -152,3 +152,18 @@ class ReferralCode(models.Model):
 
     
 
+class Payment(models.Model):
+    Payment_status = [
+        ("under_review", "Under Review"),
+        ("accepted", "Accepted"),
+        ("rejected", "Rejected"),
+    ]
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='payment')
+    amount = models.FloatField(default=600)
+    utr_number = models.CharField(max_length=100)
+    payment_screenshot = models.ImageField(upload_to='payment_screenshots/')
+    payment_status = models.CharField(max_length=20, choices=Payment_status, default='under_review')
+    posted_date = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.user.username

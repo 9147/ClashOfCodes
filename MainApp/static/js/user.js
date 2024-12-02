@@ -123,11 +123,76 @@ tippy('.info-icon', {
 });
 
 
-function makePayment(){
-    // alert to tell that payment is not yet activated
+function makePayment() {
     Swal.fire({
-        icon: 'error',
-        title: 'Oops...',
-        text: 'Payment is not yet activated',
-      })
+        title: 'Make Payment',
+        text: 'Please make payment to the following account',
+        imageUrl: '/static/images/payment_qr.jpg',
+        imageWidth: 375,
+        imageHeight: 470,
+        imageAlt: 'Custom image',
+        showCancelButton: true,
+        confirmButtonText: 'Submit',
+        cancelButtonText: 'Cancel',
+        reverseButtons: true,
+        preConfirm: () => {
+            Swal.fire({
+                title: 'Payment Details',
+                html:
+                '<input id="swal-input1" class="swal2-input" placeholder="Transaction ID">' +
+                '<input id="swal-input2" class="swal2-input" value=\'600\' readonly placeholder="Amount Paid">' +
+                '<input type="file" id="swal-input3" class="swal2-file" placeholder="Screenshot of Payment">',
+                focusConfirm: false,
+                preConfirm: () => {
+                    const fileInput = document.getElementById('swal-input3');
+                    return {
+                        transaction_id: document.getElementById('swal-input1').value,
+                        amount_paid: document.getElementById('swal-input2').value,
+                        screenshot: fileInput.files.length > 0 ? fileInput.files[0] : null
+                    };
+                }
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    const formData = new FormData();
+                    formData.append('transaction_id', result.value.transaction_id);
+                    formData.append('amount_paid', result.value.amount_paid);
+                    if (result.value.screenshot) {
+                        formData.append('screenshot', result.value.screenshot);
+                    }
+
+                    setRequestHeader();
+
+                    $.ajax({
+                        type: 'POST',
+                        url: '../make_payment/',
+                        data: formData,
+                        processData: false, // Important: Prevent jQuery from converting the data
+                        contentType: false, // Important: Let the browser set the content type
+                        success: function(response) {
+                            if (response['status'] === 'success') {
+                                Swal.fire({
+                                    icon: 'success',
+                                    title: 'Payment Successful',
+                                    text: 'Your payment has been received',
+                                });
+                            } else {
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Payment Failed',
+                                    text: response['error'] || 'Your payment could not be processed',
+                                });
+                            }
+                        },
+                        error: function(error) {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Payment Failed',
+                                text: 'An error occurred during the submission',
+                            });
+                        }
+                    });
+                }
+            });
+        }
+    });
 }

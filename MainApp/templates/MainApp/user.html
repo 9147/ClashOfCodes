@@ -101,8 +101,26 @@
                         </tbody>
                         <tbody class="submission-status table-section" id="submission_status">
                         <tr>
-                            <th>Nothing here yet!!</th>
+                            <th>Payment Amount</th>
+                            <td>Rs.{{ payment.amount}}</td>
                         </tr>
+                        <tr>
+                            <th>Transaction ID</th>
+                            <td>{{ payment.utr_number }}</td>
+                        </tr>
+                        <tr>
+                            <th> Payment Screenshot</th>
+                            <td><a href="../media/{{ payment.payment_screenshot }}" >View</a></td>
+                        </tr>
+                        <tr>
+                            <th>Payment Date</th>
+                            <td>{{ payment.posted_date}}</td>
+                        </tr>
+                        <tr>
+                            <th>Payment Status</th>
+                            <td>{{ payment.payment_status }}</td>
+                        </tr>
+
                     </table>
 
                 </div>

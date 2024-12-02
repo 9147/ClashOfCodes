@@ -405,7 +405,6 @@ def user_view(request):
         context['payment'] = payment
     except Payment.DoesNotExist:
         context['payment'] = None
-        context['message'] = "3"
         return render(request, 'MainApp/user.html', context)
     return render(request, 'MainApp/user.html', context)
 

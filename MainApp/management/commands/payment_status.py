@@ -67,7 +67,7 @@ class Command(BaseCommand):
 
             # Add hyperlink to the file path
             if problem.solution_pdf:
-                cell = sheet.cell(row=sheet.max_row, column=len(headers) - 4)  # File link column
+                cell = sheet.cell(row=sheet.max_row, column=len(headers) - 5)  # File link column
                 cell.value = "View File"
                 cell.hyperlink = solution_url
                 cell.font = Font(color="0000FF", underline="single")

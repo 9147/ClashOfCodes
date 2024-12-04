@@ -33,7 +33,7 @@
                 {% endif %}
             </div>
         {%else %}
-            <h3 class="sub-menu"><span><a href="https://chat.whatsapp.com/DOaKmPa64hNIhR5O77k1Qp">Join Group <ion-icon name="logo-whatsapp" ></ion-icon></a></span><span class="payment-or-edit-button" onclick="{% if problem.status == 'Pending' %}window.location='../submission/{{problem.track}}'{% else %} makePayment() {% endif %}">{% if problem.status == 'Pending' %}Edit {% else %} Payment {% endif %}</span></h3>
+            <h3 class="sub-menu"><span><a href="https://chat.whatsapp.com/DOaKmPa64hNIhR5O77k1Qp">Join Group <ion-icon name="logo-whatsapp" ></ion-icon></a></span></h3>
             <div class="info-conatiner">
                 <div class="menu-container">
                     <div class="menu-item active-menu-item" id="team_info-menu" onclick="changeSection(this,'team_info')">Team</div>

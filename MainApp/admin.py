@@ -55,4 +55,5 @@ class ReferralCodeAdmin(admin.ModelAdmin):
 
 @admin.register(Payment)
 class PaymentAdmin(admin.ModelAdmin):
-    list_display = ['user','amount','utr_number','payment_screenshot','posted_date']
+    list_display = ['user','amount','utr_number','payment_screenshot','posted_date','payment_status']
+    sortable_by = ['posted_date','payment_status']

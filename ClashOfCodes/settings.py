@@ -52,6 +52,7 @@ ALLOWED_HOSTS = ["*"]
 # Application definition
 
 INSTALLED_APPS = [
+    'QRcode',
     'MainApp.apps.MainappConfig',
     'django.contrib.sites',  # Required by allauth
     'django.contrib.messages',

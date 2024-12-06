@@ -22,6 +22,7 @@ from django.conf.urls.static import static
 urlpatterns = [
     path('ieeecs/', admin.site.urls),
     path("", include("MainApp.urls", namespace="MainApp")),
+    path('qrcode/', include('QRcode.urls', namespace='QRcode')),
 ]
 
 if settings.DEBUG:

@@ -1,11 +1,28 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>home</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  {% load static %}
+  <title>QR Code Scanner</title>
+  <link rel="stylesheet" href="{% static 'css/QRhome.css' %}">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
 </head>
 <body>
-    hello this is home
+  <div id="qr-scanner-container">
+    <h1>QR Code Scanner</h1>
+    <div id="qr-reader"></div>
+    <div id="qr-output">
+      <h2>Scanned QR Code:</h2>
+      <p id="qr-data"></p>
+    </div>
+  </div>
+  <script>
+    const csrfToken = "{{ csrf_token }}"; // CSRF token for Django POST requests
+  </script>
+  <script src="https://unpkg.com/html5-qrcode"></script>
+  <script src="{% static 'js/QRhome.js' %}"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  
 </body>
 </html>

@@ -150,8 +150,6 @@ class ReferralCode(models.Model):
         self.users.add(user)
         self.save()
 
-    
-
 class Payment(models.Model):
     Payment_status = [
         ("under_review", "Under Review"),

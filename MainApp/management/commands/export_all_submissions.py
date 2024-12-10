@@ -29,7 +29,7 @@ class Command(BaseCommand):
         headers = [
             "Team ID", "Team Name", "Leader Name", "Leader Email", "Leader Contact",
             "Member 1", "Member 2", "Member 3", "City", "College", "State", "Country",
-            "Submission Title", "Description", "Solution", "Domain", "Track", "Status", "Solution File (Link)"
+            "Submission Title", "Description", "Solution", "Domain", "Track", "Status", "Solution File (Link)", "Github Link"
         ]
         sheet.append(headers)
 
@@ -52,6 +52,7 @@ class Command(BaseCommand):
                 problem.track, problem.status
             ]
             row_data.append(solution_url)  # Add file path/URL
+            row_data.append(problem.github_link)
             
             # Append the data
             row_idx = sheet.max_row + 1
@@ -59,9 +60,16 @@ class Command(BaseCommand):
 
             # Add hyperlink to the file path
             if problem.solution_pdf:
-                cell = sheet.cell(row=row_idx, column=len(headers))
+                cell = sheet.cell(row=row_idx, column=headers.index("Solution File (Link)") + 1)
                 cell.value = "View File"
                 cell.hyperlink = solution_url
+                cell.font = Font(color="0000FF", underline="single")
+
+            # Add hyperlink to the Github link
+            if problem.github_link:
+                cell = sheet.cell(row=row_idx, column=headers.index("Github Link") + 1)
+                cell.value = "View Code"
+                cell.hyperlink = problem.github_link
                 cell.font = Font(color="0000FF", underline="single")
 
         # Generate the file name with timestamp

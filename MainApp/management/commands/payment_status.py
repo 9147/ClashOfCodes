@@ -30,7 +30,7 @@ class Command(BaseCommand):
             "Team ID", "Team Name", "Leader Name", "Leader Email", "Leader Contact",
             "Member 1", "Member 2", "Member 3", "City", "College", "State", "Country",
             "Submission Title", "Description", "Solution", "Domain", "Track", "Status",
-            "Solution File (Link)", "Payment Amount", "Payment UTR", "Payment Status", "Payment Date", "Payment Screenshot"
+            "Solution File (Link)","Github Link", "Payment Amount", "Payment UTR", "Payment Status", "Payment Date", "Payment Screenshot"
         ]
         sheet.append(headers)
 
@@ -58,7 +58,7 @@ class Command(BaseCommand):
                 team.member1_name, team.member2_name, team.member3_name,
                 team.city, team.college, team.state, team.country,
                 problem.title, problem.description, problem.solution, problem.domain,
-                problem.track, problem.status, solution_url,
+                problem.track, problem.status, solution_url, problem.github_link,
                 payment_amount, payment_utr, payment_status, payment_date
             ]
             sheet.append(row_data)
@@ -67,9 +67,16 @@ class Command(BaseCommand):
 
             # Add hyperlink to the file path
             if problem.solution_pdf:
-                cell = sheet.cell(row=sheet.max_row, column=len(headers) - 5)  # File link column
+                cell = sheet.cell(row=sheet.max_row, column=len(headers) - 6)  # File link column
                 cell.value = "View File"
                 cell.hyperlink = solution_url
+                cell.font = Font(color="0000FF", underline="single")
+
+            # Add hyperlink to the Github link
+            if problem.github_link:
+                cell = sheet.cell(row=sheet.max_row, column=len(headers) - 5)
+                cell.value = "View Code"
+                cell.hyperlink = problem.github_link
                 cell.font = Font(color="0000FF", underline="single")
             
             if payment and payment.payment_screenshot:

@@ -11,7 +11,7 @@ def generate_unique_code():
             return unique_code
 
 class DemoUser(models.Model):
-    name = models.CharField(max_length=200)
+    name = models.CharField(max_length=200, blank=True, null=True)
     role_choices = [
         ('Team Member', 'Team Member'),
         ('Volunteer', 'Volunteer'),

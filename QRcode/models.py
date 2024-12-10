@@ -16,6 +16,7 @@ class DemoUser(models.Model):
         ('Team Member', 'Team Member'),
         ('Volunteer', 'Volunteer'),
         ('Judge', 'Judge'),
+        ("Faculty", "Faculty"),
     ]
     id = models.CharField(max_length=10, primary_key=True, editable=False)
     unique_code = models.CharField(max_length=16, unique=True, editable=False)

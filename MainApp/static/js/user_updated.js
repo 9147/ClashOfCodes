@@ -196,3 +196,54 @@ function makePayment() {
         }
     });
 }
+
+function ShowDialogue() {
+    Swal.fire({
+        title: 'Enter GitHub URL',
+        input: 'url',
+        inputPlaceholder: 'https://github.com/your-repo',
+        showCancelButton: true,
+        confirmButtonText: 'Submit',
+        cancelButtonText: 'Cancel',
+        inputValidator: (value) => {
+            if (!value) {
+                return 'Please enter a URL!';
+            } else if (!/^https:\/\/github\.com\/.+/.test(value)) {
+                return 'Please enter a valid GitHub URL!';
+            }
+        },
+        preConfirm: (githubUrl) => {
+            return new Promise((resolve) => {
+                setRequestHeader();
+                $.ajax({
+                    type: 'POST',
+                    url: '../add_github_link/',
+                    data: JSON.stringify({ githubUrl: githubUrl }),
+                    contentType: 'application/json',
+                    success: function(response) {
+                        resolve(response); // Pass response to then block
+                    },
+                    error: function(xhr) {
+                        Swal.showValidationMessage(
+                            `Request failed: ${xhr.statusText}`
+                        );
+                    }
+                });
+            });
+        }
+    }).then((result) => {
+        if (result.isConfirmed) {
+            Swal.fire({
+                icon: 'success',
+                title: 'Success!',
+                text: result.value.message // Response message from server
+            });
+        } else if (result.dismiss === Swal.DismissReason.cancel) {
+            Swal.fire({
+                icon: 'info',
+                title: 'Cancelled',
+                text: 'Submission was cancelled.'
+            });
+        }
+    });
+}

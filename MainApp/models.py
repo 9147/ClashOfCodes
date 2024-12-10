@@ -90,6 +90,7 @@ class Problem(models.Model):
     description = models.TextField()
     solution = models.TextField()
     domain = models.CharField(max_length=100,default='web')
+    github_link = models.URLField(blank=True)
     
     tracks_choice = [
         ('Digital', 'Digital'),

@@ -19,4 +19,5 @@ urlpatterns = [
     path('referralvalidation/', views.referralValidation, name='referralValidation'),
     path('discount/', views.discount, name='discount'),
     path('make_payment/', views.make_payment, name='make_payment'),
+    path('add_github_link/', views.save_github_url, name='save_github_link'),
 ]

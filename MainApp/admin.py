@@ -34,7 +34,7 @@ class contactAdmin(admin.ModelAdmin):
 
 @admin.register(Problem)
 class ProblemAdmin(admin.ModelAdmin):
-    list_display = ['title', 'team', 'description', 'solution','solution_pdf','domain','track']
+    list_display = ['title', 'team', 'description', 'solution','solution_pdf','domain','track','github_link']
     sortable_by = ['title', 'team', 'description', 'solution','solution_pdf','domain','track']
     search_fields = ['title', 'team', 'description', 'solution','solution_pdf','domain','track']
     list_filter = ['title', 'team', 'description', 'solution','solution_pdf','domain','track']

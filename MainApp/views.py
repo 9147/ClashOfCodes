@@ -8,6 +8,7 @@ from .models import Payment, UserToken
 from django.contrib.auth import authenticate, login, logout
 from .models import Team, submissiontime, contact, submissiontime, Problem, ladingPage, ReferralCode
 from django.template.loader import render_to_string
+import json
 
 # Create your views here.
 def home(request):
@@ -456,3 +457,20 @@ def make_payment(request):
             payment.save()
             return JsonResponse({'message': 'Payment details added successfully!','status':"success"}, status=200)
     return JsonResponse({'message': 'Payment details could not be added!','status':"fail"}, status=404)
+
+
+def save_github_url(request):
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        github_url = data.get('githubUrl')
+        # save url in problem model
+        try:
+            user = request.user
+            team = Team.objects.get(leader=user)
+            problem = Problem.objects.get(team=team)
+            problem.github_link = github_url
+            problem.save()
+        except:
+            return JsonResponse({'message': 'Error saving GitHub URL!'}, status=400)
+        return JsonResponse({'message': 'GitHub URL successfully added!'}, status=200)
+    return JsonResponse({'message': 'Invalid request!'}, status=400)

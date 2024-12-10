@@ -1,38 +1,64 @@
-from MainApp.models import Team, Payment
 from QRcode.models import DemoUser
+import openpyxl
+from django.db import transaction
+from django.core.management.base import BaseCommand
 
 
+class Command(BaseCommand):
+    help = 'Populate the DemoUser model with data from the given Excel file.'
 
-def assign_food_access(demo_user, access_dict):
-    """
-    Assign food access permissions to the user based on the provided dictionary.
-    """
-    demo_user.lunch1 = access_dict.get('lunch1', False)
-    demo_user.dinner = access_dict.get('dinner', False)
-    demo_user.breakfast = access_dict.get('breakfast', False) or demo_user.dinner
-    demo_user.lunch2 = access_dict.get('lunch2', False)
-    demo_user.save()
+    def add_arguments(self, parser):
+        # Add the base_url argument (this is the parameter that you will pass)
+        parser.add_argument('--reset', type=bool, help='Reset all the completed flags to False')
 
-def create_demo_users():
-    # Step 1: Add team members with completed payments
-    for team in Team.objects.all():
-        leader_payment = Payment.objects.filter(user=team.leader, payment_status="accepted").exists()
-        if leader_payment:
-            members = [team.leader.username, team.member1_name, team.member2_name, team.member3_name]
-            for member in members:
-                demo_user, created = DemoUser.objects.get_or_create(name=member, role='Team Member', team_name=team.name)
-                # Assign default food access
-                assign_food_access(demo_user, {'lunch1': True, 'dinner': True, 'lunch2': False})
+    def handle(self, *args, **kwargs):
+            
+        """
+        Populate the DemoUser model with data from the given Excel file.
+        :param file_path: Path to the Excel file.
+        """
 
-    # Step 2: Add volunteers and judges from a sheet
-    import csv
-    with open('volunteers_judges.csv', 'r') as file:
-        reader = csv.DictReader(file)
-        for row in reader:
-            name = row['name']
-            role = row['role']  # Ensure 'role' is either 'Volunteer' or 'Judge'
-            demo_user, created = DemoUser.objects.get_or_create(name=name, role=role)
-            # Assign default food access for volunteers and judges
-            assign_food_access(demo_user, {'lunch1': True, 'dinner': False, 'lunch2': True})
+        # rest all options is flagged as False or true defalut is false
+        reset = kwargs.get('reset', False) 
 
-    print("Demo users created and food access assigned successfully!")
+        try:
+            # Load the Excel workbook
+            file_path = "DemoUsers.xlsx"
+            workbook = openpyxl.load_workbook(file_path)
+            sheet = workbook.active
+
+            # Skip the header row
+            rows = list(sheet.iter_rows(values_only=True))[1:]
+
+            # Start a database transaction
+            with transaction.atomic():
+                for row in rows:
+                    user_id, team_name, member_name, role , lunch1, dinner, breakfast, lunch2 = row
+                    
+                    # Create or update the DemoUser
+                    demo_user, created = DemoUser.objects.update_or_create(
+                        id=user_id,
+                        defaults={
+                            'name': member_name,
+                            'team_name': team_name if team_name else None,
+                            'role': role,
+                            'lunch1': lunch1,
+                            'dinner': dinner,
+                            'breakfast': breakfast,
+                            'lunch2': lunch2,
+                            
+                        }
+
+                    )
+                    # set lunch_completed, dinner_completed, breakfast_completed, lunch2_completed to false  if reset was true
+                    if reset:
+                        demo_user.lunch1_completed = False
+                        demo_user.dinner_completed = False
+                        demo_user.breakfast_completed = False
+                        demo_user.lunch2_completed = False
+                        demo_user.save()
+                    print(f"{'Created' if created else 'Updated'} DemoUser: {demo_user.name} ({demo_user.id})")
+            
+            print("DemoUser data successfully populated.")
+        except Exception as e:
+            print(f"Error populating DemoUser data: {e}")

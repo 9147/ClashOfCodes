@@ -33,7 +33,7 @@ class Command(BaseCommand):
                 sheet.append([team.name, team.member1_name,"Team Member","True","True","True","True"])
             if team.member2_name:
                 sheet.append([team.name, team.member2_name,"Team Member","True","True","True","True"])
-            if team.member3_name and team.member3_name != "" and team.member3_name != None and team.member3_name != "None" and team.member3_name != "none" and team.member3_name != "NONE" and team.member3_name != "null" and team.member3_name != "NULL" and team.member3_name != "Null" and team.member3_name != "nil" and team.member3_name != "NIL" and team.member3_name != "Nil" and team.member3_name != "." and team.member3_name !="_":
+            if team.member3_name and team.member3_name != "" and team.member3_name != None and team.member3_name != "None" and team.member3_name != "none" and team.member3_name != "NONE" and team.member3_name != "null" and team.member3_name != "NULL" and team.member3_name != "Null" and team.member3_name != "nil" and team.member3_name != "NIL" and team.member3_name != "Nil" and team.member3_name != "." and team.member3_name !="_" and team.member3_name !="-":
                 sheet.append([team.name, team.member3_name,"Team Member","True","True","True","True"])
 
         # Generate the file name with timestamp

@@ -10,6 +10,8 @@ staticfiles/
 *.pot
 *.pyc
 
+qr_codes/
+demo_users_qr.zip
 
 # Environments
 .env
